@@ -227,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   movSpeed: 0
+  arrowPrefab: {fileID: 6161193937770846933, guid: f1cf82160d4810c46bc796a2106aac22, type: 3}
 --- !u!114 &4242497167488623107
 MonoBehaviour:
   m_ObjectHideFlags: 0
