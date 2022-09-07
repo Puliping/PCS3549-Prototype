@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MovementController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Vector2 moveDirection;
+
+    void OnMove(InputValue value)
     {
-        
+        moveDirection = value.Get<Vector2>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        transform.Translate(new Vector3(moveDirection.x, moveDirection.y, 0) * Time.deltaTime);
     }
 }
