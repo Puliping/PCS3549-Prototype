@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 6025498895309114616}
   m_Layer: 0
   m_Name: HumanFighter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 764068599315899405}
   m_Layer: 0
   m_Name: HitBox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

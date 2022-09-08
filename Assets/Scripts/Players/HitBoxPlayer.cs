@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HitBoxPlayer : MonoBehaviour
 {
+    public Player player;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
