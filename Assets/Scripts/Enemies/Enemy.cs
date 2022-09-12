@@ -8,7 +8,8 @@ public class Enemy : MonoBehaviour
     public float hp;
     [SerializeField]
     public float contactDamage;
-    private Player player;
+    private List<Player> players_being_damaged = new List<Player>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,31 +19,45 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other + "   " + other.tag);
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("PlayerHitBox"))
         {
-            player = other.GetComponent<HitBoxPlayer>().player;
+            Player player = other.GetComponent<HitBoxPlayer>().player;
             ContactDamage(player);
-            player.damageToReceive += contactDamage;            
+            player.damageToReceive += contactDamage;
+            if (!players_being_damaged.Contains(player))
+                players_being_damaged.Add(player);
         }
-        if(other.CompareTag("Minion"))
-        {
-            
-        }
+        
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("PlayerHitBox"))
         {
-            player = other.GetComponent<HitBoxPlayer>().player;
+            Player player = other.GetComponent<HitBoxPlayer>().player;
             player.damageToReceive -= contactDamage;
+            players_being_damaged.Remove(player);
         }
     }
+
+
+    private void UpdateContactDamage()
+    {
+        foreach (Player p in players_being_damaged)
+        {
+            p.damageToReceive -= contactDamage;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        UpdateContactDamage();
+    }
+
     public void ContactDamage(Player player)
     {
         player.TakeDamage(contactDamage);

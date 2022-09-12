@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     {
         firing = true;
         GameObject projectile = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
-        projectile.GetComponent<Rigidbody2D>().velocity = aimDirection;
+        projectile.GetComponent<Rigidbody2D>().velocity = aimDirection*10;
         projectile.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg);
         yield return new WaitForSeconds(0f);
         firing = false;
