@@ -90,7 +90,8 @@ public class EnemyMovement : MonoBehaviour
         reachedendofpath = currentWaypoint >= path.vectorPath.Count;
         if (reachedendofpath)
         {
-            //SetSpeed(Vector2.zero, 0);
+            if(Vector2.Distance(rb.position, path.vectorPath[currentWaypoint-1])<0.02f)
+                SetSpeed(Vector2.zero, 0);
             return;
         }
 
