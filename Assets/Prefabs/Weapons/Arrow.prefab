@@ -26,10 +26,10 @@ Transform:
   m_GameObject: {fileID: 4946134235570251290}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.8, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9053507371120939327}
+  - {fileID: 8207894155141785605}
   m_Father: {fileID: 3993468135747609077}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,10 +43,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0025419593, y: 0.0006354954}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -57,7 +57,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.21706486, y: 0.037721064}
+  m_Size: {x: 0.29, y: 0.07}
   m_EdgeRadius: 0
 --- !u!1 &5975344676056815581
 GameObject:
@@ -67,8 +67,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9053507371120939327}
-  - component: {fileID: 4346552174066531268}
+  - component: {fileID: 8207894155141785605}
   - component: {fileID: 684201261677573795}
   m_Layer: 5
   m_Name: Image
@@ -77,34 +76,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &9053507371120939327
-RectTransform:
+--- !u!4 &8207894155141785605
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5975344676056815581}
-  m_LocalRotation: {x: -0, y: -0, z: 0.9269605, w: -0.375159}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1853430445645804339}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -135.932}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0303, y: 0.0036}
-  m_SizeDelta: {x: 0.2611, y: 0.2492}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &4346552174066531268
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5975344676056815581}
-  m_CullTransparentMesh: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &684201261677573795
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -166,7 +152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3993468135747609077}
-  - component: {fileID: 2362652861910079854}
+  - component: {fileID: 5651333995250925531}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -190,7 +176,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &2362652861910079854
+--- !u!50 &5651333995250925531
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
