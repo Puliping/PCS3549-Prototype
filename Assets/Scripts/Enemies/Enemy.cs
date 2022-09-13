@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float hp;
     [SerializeField]
     public float contactDamage;
+    public GameObject fireworks;
     private List<Player> players_being_damaged = new List<Player>();
 
     // Start is called before the first frame update
@@ -78,5 +79,10 @@ public class Enemy : MonoBehaviour
         Debug.Log("F no chat // morreu");
         transform.parent.gameObject.SetActive(false);
         // morreu
+    }
+
+    private void OnDisable()
+    {
+        Instantiate(fireworks,this.transform.position,Quaternion.identity);
     }
 }

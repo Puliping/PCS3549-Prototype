@@ -17463,6 +17463,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 441402609, guid: 7f93546369d18614c81ab036189d69c4, type: 3}
+      propertyPath: fireworks
+      value: 
+      objectReference: {fileID: 8550248868410396489, guid: 5b3e19a069a1f8446ad33f8dea6aaf13, type: 3}
     - target: {fileID: 1766485826, guid: 7f93546369d18614c81ab036189d69c4, type: 3}
       propertyPath: player
       value: 
