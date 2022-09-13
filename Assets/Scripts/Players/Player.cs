@@ -14,6 +14,11 @@ public class Player : MonoBehaviour
     public int coroutineId;
     Vector2 aimDirection;
     bool firing;
+    bool melee = true;
+    public GameObject meleeAttackSprite;
+    float meleeAttackOffset = 0.7f;
+    public float meleeAttackRange = 0.5f;
+    public LayerMask enemyLayers;
     public float damageToReceive = 0;
 
     public delegate void receiveDamage();
@@ -33,10 +38,54 @@ public class Player : MonoBehaviour
     }
     void OnFire()
     {
-        if (!firing)
+        if (melee)
         {
-            StartCoroutine(FireAt(aimDirection));
+            if (!firing)
+            {
+                StartCoroutine(MeleeAttackAt(aimDirection));
+            }
         }
+        else
+        {
+            if (!firing)
+            {
+                StartCoroutine(FireAt(aimDirection));
+            }
+        }
+    }
+
+    IEnumerator MeleeAttackAt(Vector2 aimDirection)
+    {
+        // update attack point position
+        Vector3 meleeAttackPoint = transform.position;
+        meleeAttackPoint += new Vector3(meleeAttackOffset * aimDirection.x, meleeAttackOffset * aimDirection.y, 0);
+        meleeAttackSprite.transform.position = meleeAttackPoint;
+        meleeAttackSprite.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90);
+
+        // animate
+        yield return new WaitForSeconds(0.1f);
+        meleeAttackSprite.SetActive(true);
+
+        // detect enemies
+        Collider2D[] hits = Physics2D.OverlapCircleAll(meleeAttackPoint, meleeAttackRange, enemyLayers);
+        foreach (Collider2D enemy in hits)
+        {
+            // deal damage
+            Enemy enemyComponent = enemy.GetComponentInChildren<Enemy>();
+            enemyComponent.TakeDamage(5f); // FFFFF
+
+            Debug.Log("hit " + enemy.name);
+        }
+
+        // return memes
+        yield return new WaitForSeconds(0.1f);
+        meleeAttackSprite.SetActive(false);
+        yield return new WaitForSeconds(0f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(meleeAttackSprite.transform.position, meleeAttackRange);
     }
 
     IEnumerator FireAt(Vector2 aimDirection)
@@ -60,7 +109,7 @@ public class Player : MonoBehaviour
         //knockback effect?
         Debug.Log("player hp = " + hp);
 
-        if(hp<0)
+        if(hp <= 0)
         {
             morreu();
         }

@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("PlayerHitBox"))
+        if (other.CompareTag("PlayerHitBox"))
         {
             Player player = other.GetComponent<HitBoxPlayer>().player;
             ContactDamage(player);
@@ -31,12 +31,12 @@ public class Enemy : MonoBehaviour
             if (!players_being_damaged.Contains(player))
                 players_being_damaged.Add(player);
         }
-        
+
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.CompareTag("PlayerHitBox"))
+        if (other.CompareTag("PlayerHitBox"))
         {
             Player player = other.GetComponent<HitBoxPlayer>().player;
             player.damageToReceive -= contactDamage;
@@ -61,5 +61,22 @@ public class Enemy : MonoBehaviour
     public void ContactDamage(Player player)
     {
         player.TakeDamage(contactDamage);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        hp -= damage;
+        if (hp <= 0)
+        {
+            morreu();
+        }
+        // faz o urro @marcin
+    }
+
+    public void morreu()
+    {
+        Debug.Log("F no chat // morreu");
+        transform.parent.gameObject.SetActive(false);
+        // morreu
     }
 }
