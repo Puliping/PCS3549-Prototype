@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -10,6 +11,10 @@ public class Enemy : MonoBehaviour
     public float contactDamage;
     public GameObject fireworks;
     private List<Player> players_being_damaged = new List<Player>();
+    [SerializeField]
+    private GameObject textDamage_GO;
+    [SerializeField]
+    private TextMeshProUGUI textDamage;
 
     // Start is called before the first frame update
     void Start()
@@ -70,10 +75,18 @@ public class Enemy : MonoBehaviour
         if (hp <= 0)
         {
             morreu();
+            return;
         }
+        textDamage_GO.SetActive(true);
+        textDamage.text = "-" + damage.ToString();
+        StartCoroutine(CooldownText());
         // faz o urro @marcin
     }
-
+    IEnumerator CooldownText()
+    {
+        yield return new WaitForSeconds(1f);
+        textDamage_GO.SetActive(false);
+    }
     public void morreu()
     {
         Debug.Log("F no chat // morreu");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -20,11 +21,20 @@ public class Player : MonoBehaviour
     public float meleeAttackRange = 0.5f;
     public LayerMask enemyLayers;
     public float damageToReceive = 0;
-
+    private GameObject canvasRoot;
     public delegate void receiveDamage();
     public event receiveDamage takeDamageAfterInvulnTime;
+    [SerializeField]
+    private MovementController movementController;
+    [SerializeField]
+    private GameObject textDamage_GO;
+    [SerializeField]
+    private TextMeshProUGUI textDamage;
 
-
+    private void Start()
+    {
+        canvasRoot = GameModeController.Instance.CanvasRoot;        
+    }
     void OnAim(InputValue value)
     {
         Vector2 dir = value.Get<Vector2>();
@@ -107,9 +117,10 @@ public class Player : MonoBehaviour
 
         hp -= damage;
         //knockback effect?
-        Debug.Log("player hp = " + hp);
+        textDamage_GO.SetActive(true);
+        textDamage.text = "-" + damage.ToString();
 
-        if(hp <= 0)
+        if (hp <= 0)
         {
             morreu();
         }
@@ -120,12 +131,15 @@ public class Player : MonoBehaviour
 
     public void morreu()
     {
-        //faz o urro
+        canvasRoot.SetActive(true);
+        movSpeed = 0;
+        movementController.Died();
     }
 
     IEnumerator InvulnerabilityCooldown()
     {
         yield return new WaitForSeconds(invulnerableTime);
+        textDamage_GO.SetActive(false);
         isInvulnerable = false;
         if(damageToReceive != 0)
         {

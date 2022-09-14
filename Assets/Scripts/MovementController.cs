@@ -6,18 +6,23 @@ using UnityEngine.InputSystem;
 public class MovementController : MonoBehaviour
 {
     Vector2 moveDirection;
+    [SerializeField]
+    private Player player;
     private float movspeed;
+    [SerializeField]
     private Rigidbody2D rb;
 
     private void Start()
     {
-        movspeed = this.GetComponent<Player>().movSpeed;
-        rb = GetComponent<Rigidbody2D>();
+        movspeed = player.movSpeed;
     }
     void OnMove(InputValue value)
     {
-        moveDirection = value.Get<Vector2>();
-        
+        moveDirection = value.Get<Vector2>();        
+    }
+    public void Died()
+    {
+        movspeed = player.movSpeed;
     }
 
     private void Update()
