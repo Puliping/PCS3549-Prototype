@@ -27,9 +27,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private MovementController movementController;
     [SerializeField]
-    private GameObject textDamage_GO;
-    [SerializeField]
     private TextMeshProUGUI textDamage;
+    [SerializeField]
+    private TextMeshProUGUI textWeapon;
 
     private void Start()
     {
@@ -62,6 +62,14 @@ public class Player : MonoBehaviour
                 StartCoroutine(FireAt(aimDirection));
             }
         }
+    }
+    
+    IEnumerator OnChangeAttack() {
+        melee = !melee;
+        textWeapon.gameObject.SetActive(true);
+        textWeapon.text = melee ? "Sword" : "Bow";
+        yield return new WaitForSeconds(.35f);
+        textWeapon.gameObject.SetActive(false);
     }
 
     IEnumerator MeleeAttackAt(Vector2 aimDirection)
@@ -117,7 +125,7 @@ public class Player : MonoBehaviour
 
         hp -= damage;
         //knockback effect?
-        textDamage_GO.SetActive(true);
+        textDamage.gameObject.SetActive(true);
         textDamage.text = "-" + damage.ToString();
 
         if (hp <= 0)
@@ -139,7 +147,7 @@ public class Player : MonoBehaviour
     IEnumerator InvulnerabilityCooldown()
     {
         yield return new WaitForSeconds(invulnerableTime);
-        textDamage_GO.SetActive(false);
+        textDamage.gameObject.SetActive(false);
         isInvulnerable = false;
         if(damageToReceive != 0)
         {
