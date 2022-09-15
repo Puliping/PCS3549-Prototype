@@ -11,7 +11,7 @@ public class Arrow : MonoBehaviour
         {
             // deal damage
             Enemy enemyComponent = enemy.GetComponentInChildren<Enemy>();
-            enemyComponent.TakeDamage(5f); // FFFFF
+            enemyComponent.TakeDamage(2f); // FF
 
             Debug.Log("hit " + enemy.name);
         } else if (enemy.layer == LayerMask.NameToLayer("Walls")){

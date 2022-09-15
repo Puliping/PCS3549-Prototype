@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        GameModeController.Instance.enemiesAlive++;
     }
 
     // Update is called once per frame
@@ -92,6 +92,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("F no chat // morreu");
         transform.parent.gameObject.SetActive(false);
         // morreu
+        GameModeController.Instance.EnemyDeath();
     }
 
     private void OnDisable()

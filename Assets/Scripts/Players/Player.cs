@@ -21,7 +21,6 @@ public class Player : MonoBehaviour
     public float meleeAttackRange = 0.5f;
     public LayerMask enemyLayers;
     public float damageToReceive = 0;
-    private GameObject canvasRoot;
     public delegate void receiveDamage();
     public event receiveDamage takeDamageAfterInvulnTime;
     [SerializeField]
@@ -30,11 +29,6 @@ public class Player : MonoBehaviour
     private TextMeshProUGUI textDamage;
     [SerializeField]
     private TextMeshProUGUI textWeapon;
-
-    private void Start()
-    {
-        canvasRoot = GameModeController.Instance.CanvasRoot;        
-    }
     void OnAim(InputValue value)
     {
         Vector2 dir = value.Get<Vector2>();
@@ -139,7 +133,7 @@ public class Player : MonoBehaviour
 
     public void morreu()
     {
-        canvasRoot.SetActive(true);
+        GameModeController.Instance.Defeat();
         movSpeed = 0;
         movementController.Died();
     }

@@ -18,7 +18,7 @@ public class EnemyBrain : MonoBehaviour
     {
         internalMovement = GetComponent<EnemyMovement>();
         spawn_position = transform.position + Vector3.zero;
-        StartCoroutine(SeePlayerLoop(0.8f));
+        StartCoroutine(SeePlayerLoop(0.4f));
         
     }
 
