@@ -9,3 +9,8 @@ O grupo é formado pelos seguintes alunos:
 * Paulo Rubens Alvarenga Kerassiotis - NUSP: 10773374
 * Thales Augusto Souto Rodriguez - NUSP: 10706110
 
+## Controles
+
+* WASD - Movimentação.
+* Mouse - Mira/ataques.
+* Tab - Troca de arma (espada/arco).
