@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     bool melee = true;
     public GameObject meleeAttackSprite;
     float meleeAttackOffset = 0.7f;
-    public float meleeAttackRange = 0.5f;
+    public float meleeAttackRange = 0.3f;
     public LayerMask enemyLayers;
     public float damageToReceive = 0;
     public delegate void receiveDamage();
@@ -66,20 +66,27 @@ public class Player : MonoBehaviour
         textWeapon.gameObject.SetActive(false);
     }
 
+    Vector3 meleePhysicsAttackPoint = Vector3.zero;
     IEnumerator MeleeAttackAt(Vector2 aimDirection)
     {
         // update attack point position
+        firing = true;
         Vector3 meleeAttackPoint = transform.position;
         meleeAttackPoint += new Vector3(meleeAttackOffset * aimDirection.x, meleeAttackOffset * aimDirection.y, 0);
+
+        meleePhysicsAttackPoint = transform.position + new Vector3(meleeAttackOffset * aimDirection.x*0.8f, meleeAttackOffset * aimDirection.y*0.8f, 0);
+
         meleeAttackSprite.transform.position = meleeAttackPoint;
         meleeAttackSprite.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90);
 
         // animate
-        yield return new WaitForSeconds(0.1f);
+        
         meleeAttackSprite.SetActive(true);
 
+        yield return new WaitForSeconds(0.15f);
         // detect enemies
-        Collider2D[] hits = Physics2D.OverlapCircleAll(meleeAttackPoint, meleeAttackRange, enemyLayers);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(meleePhysicsAttackPoint, meleeAttackRange, enemyLayers);
+
         foreach (Collider2D enemy in hits)
         {
             // deal damage
@@ -90,14 +97,15 @@ public class Player : MonoBehaviour
         }
 
         // return memes
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         meleeAttackSprite.SetActive(false);
-        yield return new WaitForSeconds(0f);
+
+        firing = false;
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(meleeAttackSprite.transform.position, meleeAttackRange);
+        Gizmos.DrawWireSphere(meleePhysicsAttackPoint, meleeAttackRange);
     }
 
     IEnumerator FireAt(Vector2 aimDirection)
@@ -106,7 +114,7 @@ public class Player : MonoBehaviour
         GameObject projectile = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
         projectile.GetComponent<Rigidbody2D>().velocity = aimDirection*10;
         projectile.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg);
-        yield return new WaitForSeconds(0f);
+        yield return new WaitForSeconds(0.2f);
         firing = false;
     }
 

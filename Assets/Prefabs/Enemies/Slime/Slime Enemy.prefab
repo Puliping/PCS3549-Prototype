@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 3525508659138255993}
   - component: {fileID: 441402605}
   - component: {fileID: 441402609}
+  - component: {fileID: 8253840477205499217}
   m_Layer: 0
   m_Name: SlimeGFX
   m_TagString: Untagged
@@ -330,7 +331,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3525508659138255996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -376,6 +377,22 @@ MonoBehaviour:
   fireworks: {fileID: 8550248868410396489, guid: 5b3e19a069a1f8446ad33f8dea6aaf13, type: 3}
   textDamage_GO: {fileID: 92209385}
   textDamage: {fileID: 92209387}
+--- !u!70 &8253840477205499217
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525508659138255996}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0082410155, y: 0.016480612}
+  m_Size: {x: 0.862667, y: 0.6044831}
+  m_Direction: 1
 --- !u!1 &3525508659557733355
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95309f803dfa1d4d8eecb6012c62bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  aggro_range: 3
+  aggro_range: 4
   seeingPlayer: 0
   chasing_player: 0

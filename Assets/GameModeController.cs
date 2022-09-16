@@ -11,15 +11,19 @@ public class GameModeController : MonoBehaviour
     public int enemiesAlive;
     [SerializeField]
     private TextMeshProUGUI finalText;
+
+    private GameObject player;
     // Start is called before the first frame update
     private void Awake()
-    {        
+    {   
         if (Instance != null)
         {
             Destroy(this);
         }
         Instance = this;
         DontDestroyOnLoad(this);
+
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     public void EnemyDeath()
     {
@@ -33,16 +37,21 @@ public class GameModeController : MonoBehaviour
     public void Win()
     {
         canvasRoot.SetActive(true);
-        finalText.text = "Você ganhou";
+        finalText.text = "VocÃª ganhou!";
     }
     public void Defeat()
     {
         canvasRoot.SetActive(true);
-        finalText.text = "Você perdeu";
+        finalText.text = "VocÃª perdeu";
     }
     void Start()
     {
         
+    }
+
+    public GameObject GetPlayer()
+    {
+        return player;
     }
 
     // Update is called once per frame

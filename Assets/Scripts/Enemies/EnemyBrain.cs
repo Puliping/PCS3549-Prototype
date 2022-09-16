@@ -8,7 +8,7 @@ public class EnemyBrain : MonoBehaviour
 {
 
 
-    public GameObject player;
+    private GameObject player;
     private EnemyMovement internalMovement;
     private bool idlePathCooldown=true;
     private bool isIdle = true;
@@ -16,10 +16,11 @@ public class EnemyBrain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         internalMovement = GetComponent<EnemyMovement>();
         spawn_position = transform.position + Vector3.zero;
         StartCoroutine(SeePlayerLoop(0.4f));
-        
+        player = GameModeController.Instance.GetPlayer();
     }
 
     public float aggro_range = 5f; //Distance to see player
@@ -42,6 +43,11 @@ public class EnemyBrain : MonoBehaviour
         return false;
     }
 
+    public void AggroEnemy()
+    {
+        chasing_player = true;
+        seeingPlayer = true;
+    }
 
     void OnDrawGizmos()
     {

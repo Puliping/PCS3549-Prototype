@@ -16,9 +16,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textDamage;
 
+    private EnemyBrain brain;
     // Start is called before the first frame update
     void Start()
     {
+        brain = GetComponentInParent<EnemyBrain>();
         GameModeController.Instance.enemiesAlive++;
     }
 
@@ -72,14 +74,20 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         hp -= damage;
+
+        brain.AggroEnemy();
+        textDamage_GO.SetActive(true);
+        textDamage.text = "-" + damage.ToString();
+        StartCoroutine(CooldownText());
+
         if (hp <= 0)
         {
             morreu();
             return;
         }
-        textDamage_GO.SetActive(true);
-        textDamage.text = "-" + damage.ToString();
-        StartCoroutine(CooldownText());
+        
+
+
         // faz o urro @marcin
     }
     IEnumerator CooldownText()
