@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
 
     public void ContactDamage(Player player)
     {
-        player.TakeDamage(contactDamage);
+        player.ReceiveDamage(contactDamage);
     }
 
     public void TakeDamage(float damage)

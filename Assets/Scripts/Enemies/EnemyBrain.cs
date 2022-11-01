@@ -11,7 +11,7 @@ public class EnemyBrain : MonoBehaviour
     private GameObject player;
     private EnemyMovement internalMovement;
     private bool idlePathCooldown=true;
-    private bool isIdle = true;
+    /*private bool isIdle = true;*/
 
     // Start is called before the first frame update
     void Start()

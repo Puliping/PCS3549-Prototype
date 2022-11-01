@@ -17,18 +17,88 @@ public class Player : MonoBehaviour
     bool firing;
     bool melee = true;
     public GameObject meleeAttackSprite;
-    float meleeAttackOffset = 0.7f;
     public float meleeAttackRange = 0.3f;
     public LayerMask enemyLayers;
     public float damageToReceive = 0;
     public delegate void receiveDamage();
-    public event receiveDamage takeDamageAfterInvulnTime;
+    /*public event receiveDamage takeDamageAfterInvulnTime;*/
     [SerializeField]
     private MovementController movementController;
     [SerializeField]
     private TextMeshProUGUI textDamage;
     [SerializeField]
     private TextMeshProUGUI textWeapon;
+
+    public void GoAtack()
+    {
+
+    }
+    public void Dash()
+    {
+
+    }
+    public void Skill()
+    {
+
+    }
+    public void GoChargedAttack()
+    {
+
+    }
+    public void HitedEnemy()
+    {
+
+    }
+    public void ReceiveXp()
+    {
+
+    }
+    public void UpPlayer()
+    {
+
+    }
+    public void UpdateVisual()
+    {
+
+    }
+    public void CmdUpdateVisual()
+    {
+
+    }
+    public void RpcUpdateVisual()
+    {
+
+    }
+
+    public void UpdateAnimations()
+    {
+
+    }
+    public void CmdUpdateAnimations()
+    {
+
+    }
+    public void RpcUpdateAnimations()
+    {
+
+    }
+    public void UpdateCanvas()
+    {
+
+
+    }
+    public void CmdUpdateCanvas()
+    {
+
+    }
+    public void RpcUpdateCanvas()
+    {
+
+    }
+    public void Interact()
+    {
+
+    }
     void OnAim(InputValue value)
     {
         Vector2 dir = value.Get<Vector2>();
@@ -40,6 +110,7 @@ public class Player : MonoBehaviour
         }
         aimDirection = new Vector2(dir.x, dir.y);
     }
+    /* Deveria estar na arma nao no player
     void OnFire()
     {
         if (melee)
@@ -57,7 +128,8 @@ public class Player : MonoBehaviour
             }
         }
     }
-    
+    */
+    /*Usar essa funcao para o WeaponMater*/
     IEnumerator OnChangeAttack() {
         melee = !melee;
         textWeapon.gameObject.SetActive(true);
@@ -65,7 +137,8 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(.35f);
         textWeapon.gameObject.SetActive(false);
     }
-
+    // Deveria estar na arma e nao no player
+    /*
     Vector3 meleePhysicsAttackPoint = Vector3.zero;
     IEnumerator MeleeAttackAt(Vector2 aimDirection)
     {
@@ -102,12 +175,8 @@ public class Player : MonoBehaviour
 
         firing = false;
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(meleePhysicsAttackPoint, meleeAttackRange);
-    }
-
+    */
+    /* Deveria estar na arma e nao no player
     IEnumerator FireAt(Vector2 aimDirection)
     {
         firing = true;
@@ -117,8 +186,9 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         firing = false;
     }
+    */
 
-    public void TakeDamage(float damage)
+    public void ReceiveDamage(float damage)
     {
         if(isInvulnerable)
         {
@@ -132,14 +202,14 @@ public class Player : MonoBehaviour
 
         if (hp <= 0)
         {
-            morreu();
+            Die();
         }
 
         isInvulnerable = true;
         StartCoroutine(InvulnerabilityCooldown());
     }
 
-    public void morreu()
+    public void Die()
     {
         GameModeController.Instance.Defeat();
         movSpeed = 0;
@@ -153,7 +223,7 @@ public class Player : MonoBehaviour
         isInvulnerable = false;
         if(damageToReceive != 0)
         {
-            TakeDamage(damageToReceive);
+            ReceiveDamage(damageToReceive);
         }
     }
 }
