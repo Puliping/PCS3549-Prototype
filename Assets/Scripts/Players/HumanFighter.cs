@@ -4,4 +4,8 @@ using UnityEngine;
 
 public class HumanFighter : Player
 {
+    public override void OnSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }

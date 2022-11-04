@@ -4,21 +4,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using TMPro;
+using System;
 
-public class Player : MonoBehaviour
+public abstract class Player : MonoBehaviour
 {
     public float hp;
     public float movSpeed;
     public float invulnerableTime = .5f;
+    public Weapon weapon;
     private bool isInvulnerable = false;
-    public GameObject arrowPrefab;
-    public int coroutineId;
-    Vector2 aimDirection;
-    bool firing;
-    bool melee = true;
-    public GameObject meleeAttackSprite;
-    public float meleeAttackRange = 0.3f;
-    public LayerMask enemyLayers;
+    Vector2 aimPosition;
     public float damageToReceive = 0;
     public delegate void receiveDamage();
     /*public event receiveDamage takeDamageAfterInvulnTime;*/
@@ -27,25 +22,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textDamage;
     [SerializeField]
-    private TextMeshProUGUI textWeapon;
 
-    public void GoAtack()
-    {
 
-    }
-    public void Dash()
-    {
-
-    }
-    public void Skill()
-    {
-
-    }
-    public void GoChargedAttack()
-    {
-
-    }
-    public void HitedEnemy()
+    public abstract void OnSkill();
+    public void HitEnemy()
     {
 
     }
@@ -101,42 +81,55 @@ public class Player : MonoBehaviour
     }
     void OnAim(InputValue value)
     {
-        Vector2 dir = value.Get<Vector2>();
+        Vector2 aim = value.Get<Vector2>();
         if (PlayerInput.GetPlayerByIndex(0).currentControlScheme == "Keyboard and Mouse")
         {
-            dir.x -= Screen.width / 2;
-            dir.y -= Screen.height / 2;
-            dir.Normalize();
+            aim.x -= Screen.width / 2;
+            aim.y -= Screen.height / 2;
+            aim.Normalize();
         }
-        aimDirection = new Vector2(dir.x, dir.y);
+        aimPosition = new Vector2(aim.x, aim.y);
     }
-    /* Deveria estar na arma nao no player
-    void OnFire()
+
+    void OnAttack(InputAction.CallbackContext context)
     {
-        if (melee)
-        {
-            if (!firing)
-            {
-                StartCoroutine(MeleeAttackAt(aimDirection));
-            }
+        if(context.started){
+            weapon.Attack();
         }
-        else
+        else if(context.canceled) 
         {
-            if (!firing)
-            {
-                StartCoroutine(FireAt(aimDirection));
+            if(context.duration > weapon.chargeTime) {
+                weapon.ChargedAttack();
             }
         }
     }
-    */
-    /*Usar essa funcao para o WeaponMater*/
-    IEnumerator OnChangeAttack() {
-        melee = !melee;
-        textWeapon.gameObject.SetActive(true);
-        textWeapon.text = melee ? "Sword" : "Bow";
-        yield return new WaitForSeconds(.35f);
-        textWeapon.gameObject.SetActive(false);
+
+    private bool canDash = true;
+    public float dashCooldown = 1f;
+    IEnumerator OnDash()
+    {
+        if(!canDash) yield return null;
+
+        canDash = false;
+        UseDash();
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
+
+    private void UseDash()
+    {
+        throw new NotImplementedException();
+    }
+
+    /*Usar essa funcao para o WeaponMaster*/
+    // IEnumerator OnChangeAttack() {
+    //     melee = !melee;
+    //     textWeapon.gameObject.SetActive(true);
+    //     textWeapon.text = melee ? "Sword" : "Bow";
+    //     yield return new WaitForSeconds(.35f);
+    //     textWeapon.gameObject.SetActive(false);
+    // }
+
     // Deveria estar na arma e nao no player
     /*
     Vector3 meleePhysicsAttackPoint = Vector3.zero;
@@ -187,7 +180,6 @@ public class Player : MonoBehaviour
         firing = false;
     }
     */
-
     public void ReceiveDamage(float damage)
     {
         if(isInvulnerable)

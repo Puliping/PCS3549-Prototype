@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapons : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
     public float damage;
     public int level;
     public Player playerOwner;
+    public float chargeTime { get; private set;} = .5f;
     public enum WeaponType
     {
         Sword,
@@ -33,7 +34,7 @@ public class Weapons : MonoBehaviour
     {
 
     }
-    public void Atack()
+    public void Attack()
     {
 
     }

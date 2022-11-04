@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactables : MonoBehaviour
+public abstract class Interactables : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,8 +15,5 @@ public class Interactables : MonoBehaviour
     {
         
     }
-    public void Interact()
-    {
-
-    }
+    public abstract void Interact();
 }
