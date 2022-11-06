@@ -23,8 +23,16 @@ public abstract class Player : MonoBehaviour
     private TextMeshProUGUI textDamage;
     [SerializeField]
 
+    public static bool canUseSkill = true;
 
     public abstract void OnSkill();
+
+    public IEnumerator SkillCooldown(float SkillCD)
+    {
+        canUseSkill = false;
+        yield return new WaitForSeconds(SkillCD);
+        canUseSkill = true;
+    }
     public void HitEnemy()
     {
 

@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Use Skill",
+                    "name": "Skill",
                     "type": "Button",
                     "id": "a2c6c94f-d210-4f9d-aa85-9f51d09bc51b",
                     "expectedControlType": "Button",
@@ -169,7 +169,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Use Skill",
+                    "action": "Skill",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -180,7 +180,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Use Skill",
+                    "action": "Skill",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
