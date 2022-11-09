@@ -42,7 +42,7 @@ public class HookGuy : Player
                 // Deal damage to the enemy
                 if (enemyHit != null)
                 {
-                    // enemyHit.ReceiveDamage(baseSkillContactDamage);
+                    // enemyHit.ReceiveDamage(baseSkillContactdDamage);
                     Debug.Log("hit " + enemyHit.name);
                 }
                 // Reset enemy hit by hook

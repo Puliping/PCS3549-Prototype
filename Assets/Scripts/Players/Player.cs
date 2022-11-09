@@ -25,7 +25,7 @@ public abstract class Player : MonoBehaviour
 
     public static bool canUseSkill = true;
 
-    public abstract void OnSkill();
+    public virtual void OnSkill() { }
 
     public IEnumerator SkillCooldown(float SkillCD)
     {
@@ -99,7 +99,7 @@ public abstract class Player : MonoBehaviour
         }
         aimPosition = new Vector2(aim.x, aim.y);
     }
-
+    /*
     void OnAttack(InputAction.CallbackContext context)
     {
         if(context.started){
@@ -111,6 +111,13 @@ public abstract class Player : MonoBehaviour
                 weapon.ChargedAttack();
             }
         }
+    }
+    */
+
+    // TODO: rubens tem que arrumar a on attack e o contexto
+    public virtual void OnAttack()
+    {
+        Debug.Log("OnAttack");
     }
 
     private bool canDash = true;
