@@ -13,7 +13,7 @@ public abstract class Player : MonoBehaviour
     public float invulnerableTime = .5f;
     public Weapon weapon;
     private bool isInvulnerable = false;
-    Vector2 aimPosition;
+    public Vector2 aimPosition;
     public float damageToReceive = 0;
     public delegate void receiveDamage();
     /*public event receiveDamage takeDamageAfterInvulnTime;*/
@@ -32,6 +32,7 @@ public abstract class Player : MonoBehaviour
         canUseSkill = false;
         yield return new WaitForSeconds(SkillCD);
         canUseSkill = true;
+        Debug.Log("Skill is ready");
     }
     public void HitEnemy()
     {
@@ -213,7 +214,7 @@ public abstract class Player : MonoBehaviour
     {
         GameModeController.Instance.Defeat();
         movSpeed = 0;
-        movementController.Died();
+        movementController.UpdatePlayerSpeed();
     }
 
     IEnumerator InvulnerabilityCooldown()

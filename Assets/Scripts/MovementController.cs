@@ -20,7 +20,7 @@ public class MovementController : MonoBehaviour
     {
         moveDirection = value.Get<Vector2>();        
     }
-    public void Died()
+    public void UpdatePlayerSpeed()
     {
         movspeed = player.movSpeed;
     }
