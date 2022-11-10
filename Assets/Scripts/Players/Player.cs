@@ -11,6 +11,8 @@ public abstract class Player : MonoBehaviour
     public float hp;
     public float movSpeed;
     public float invulnerableTime = .5f;
+    public float attackMultiplier = 1f;
+    public float movSpeedMultiplier = 1f;
     public Weapon weapon;
     private bool isInvulnerable = false;
     public Vector2 aimPosition;
