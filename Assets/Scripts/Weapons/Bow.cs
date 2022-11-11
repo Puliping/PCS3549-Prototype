@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Bow : Weapon
 {
+
+    void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
+    {
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
