@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class OldEnemyMovement : MonoBehaviour
 {
 
     public Vector3 target;
@@ -84,8 +84,6 @@ public class EnemyMovement : MonoBehaviour
             SetSpeed(Vector2.zero, 0);
             return;
         }
-
-
         
         reachedendofpath = currentWaypoint >= path.vectorPath.Count;
         if (reachedendofpath)
@@ -94,7 +92,6 @@ public class EnemyMovement : MonoBehaviour
                 SetSpeed(Vector2.zero, 0);
             return;
         }
-
         
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint]-rb.position).normalized;
         SetSpeed(direction, movespeed*speed_modifier);

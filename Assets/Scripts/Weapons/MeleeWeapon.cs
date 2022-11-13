@@ -42,7 +42,7 @@ public class MeleeWeapon : Weapon
         Physics2D.OverlapCollider(activeCollider, enemyFilter, hits);
         foreach (Collider2D target in hits)
         {
-            RaycastHit2D hit = Physics2D.Raycast(playerOwner.transform, target.transform, playerOwner.wallLayer);
+            RaycastHit2D hit = Physics2D.Raycast(playerOwner.transform.position, target.transform.position, LayerMask.NameToLayer("Walls")); //Codigo mudado aq
             if (!hit.collider)
             {
                 Enemy enemyComponent = target.GetComponentInChildren<Enemy>();
@@ -68,7 +68,7 @@ public class MeleeWeapon : Weapon
         hitboxCollider[2] = hitbox2.GetComponent<Collider2D>();
         hitboxCollider[3] = hitbox3.GetComponent<Collider2D>();
         hitboxCollider[4] = hitboxCharged.GetComponent<Collider2D>();
-        enemyFilter.SetLayerMask(playerOwner.enemyLayers);
+        enemyFilter.SetLayerMask(LayerMask.NameToLayer("Enemy")); //Codigo mudado aq tbm
     }
 
     // Update is called once per frame

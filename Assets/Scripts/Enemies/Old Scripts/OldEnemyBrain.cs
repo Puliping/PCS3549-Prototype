@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
-public class EnemyBrain : MonoBehaviour
+public class OldEnemyBrain : MonoBehaviour
 {
 
 
     private GameObject player;
-    private EnemyMovement internalMovement;
+    private OldEnemyMovement internalMovement;
     private bool idlePathCooldown=true;
     /*private bool isIdle = true;*/
 
@@ -17,7 +17,7 @@ public class EnemyBrain : MonoBehaviour
     void Start()
     {
         
-        internalMovement = GetComponent<EnemyMovement>();
+        internalMovement = GetComponent<OldEnemyMovement>();
         spawn_position = transform.position + Vector3.zero;
         StartCoroutine(SeePlayerLoop(0.4f));
         player = GameModeController.Instance.GetPlayer();

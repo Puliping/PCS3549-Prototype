@@ -18,7 +18,7 @@ public class HookGuy : Player
     public float baseSkillHookShotSpeed = 10f;
     public Vector2 hitLocation;
     private bool pulling = false;
-    private Enemy enemyHit;
+    private OldEnemy enemyHit;
     private float baseMovSpeed;
 
     public void Update()
@@ -66,7 +66,7 @@ public class HookGuy : Player
                 lr.positionCount = 2;
 
                 // Find if it's an enemy
-                enemyHit = hit.collider.GetComponentInChildren<Enemy>();
+                enemyHit = hit.collider.GetComponentInChildren<OldEnemy>();
                 // enemyHit.ReceiveDamage(baseSkillHitDamage);
                 Debug.Log("hit " + enemyHit.name);
 

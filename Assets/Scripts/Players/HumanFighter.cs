@@ -27,7 +27,7 @@ public class HumanFighter : Player
             foreach (Collider2D target in hits)
             {
                 // Get only components on the Enemy layer
-                Enemy enemyComponent = target.GetComponentInChildren<Enemy>();
+                OldEnemy enemyComponent = target.GetComponentInChildren<OldEnemy>();
 
                 // Deal damage and stun
                 // enemyComponent.ReceiveDamage(baseSkillDamage);

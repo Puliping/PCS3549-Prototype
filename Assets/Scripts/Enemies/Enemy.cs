@@ -1,110 +1,255 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using System.Data;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    public float hp;
-    [SerializeField]
-    public float contactDamage;
-    public GameObject fireworks;
-    private List<Player> players_being_damaged = new List<Player>();
-    [SerializeField]
-    private GameObject textDamage_GO;
-    [SerializeField]
-    private TextMeshProUGUI textDamage;
 
-    private EnemyBrain brain;
-    // Start is called before the first frame update
-    void Start()
+
+    public float HP;
+    public float base_speed;
+    public float sighting_time = 0.5f;
+    public float attackCooldown = 3f;
+    public float attackDuration = 0.5f;
+    public float attack_range = 2f;
+    public float sight_range = 3f;
+
+    public GameObject player; //TO-DO make slimes able to get player/minions objects references during runtime
+
+
+    protected GameObject aggroTarget = null;
+    protected bool chasing_player = false;
+
+    protected EnemyMoviment moviment;
+    protected bool onAttackCooldown=false;
+    public States enemyState = States.Patrol;
+    public enum States
     {
-        brain = GetComponentInParent<EnemyBrain>();
-        GameModeController.Instance.enemiesAlive++;
+        Follow,
+        Patrol,
+        Attack
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    public virtual void Start()
     {
+        moviment = GetComponent<EnemyMoviment>();
+        StartCoroutine(LineOfSightLoop());
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual bool CanAttack()
     {
-        if (other.CompareTag("PlayerHitBox"))
+        if (aggroTarget && !onAttackCooldown)
         {
-            Player player = other.GetComponent<HitBoxPlayer>().player;
-            ContactDamage(player);
-            player.damageToReceive += contactDamage;
-            if (!players_being_damaged.Contains(player))
-                players_being_damaged.Add(player);
+            if ( Vector2.Distance(aggroTarget.transform.position,transform.position) < attack_range)
+            {
+                return true;
+            }
         }
+        return false;
+    }
+
+
+    protected virtual IEnumerator AttackCooldown()
+    {
+        onAttackCooldown = true;
+        yield return new WaitForSeconds(attackCooldown);
+        Debug.Log("Can attack again");
+        onAttackCooldown = false;
+
+    }
+    protected virtual IEnumerator AttackDuration()
+    {
+        moviment.SetSpeedModifier(0f);
+        yield return new WaitForSeconds(attackDuration);
+        Debug.Log("Attack ended");
+        moviment.SetSpeedModifier(1f);
+        enemyState = States.Follow;
 
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+
+    public virtual void Attack()
     {
-        if (other.CompareTag("PlayerHitBox"))
+
+        /*
+         * To do.
+         */
+        if (!CanAttack()) return;
+        Debug.Log("Enemy attacks player!");
+        
+        StartCoroutine(AttackCooldown());
+        Coroutine attackCoroutine = StartCoroutine(AttackDuration());
+    }
+
+ 
+    public virtual void Patrol()
+    {
+        /* By default, enemies remain stopped while pattroling. */
+        enemyState = States.Patrol;
+        if (moviment.ReachedEndOfPath()) moviment.SetTargetPosition(transform.position + Vector3.zero, 0f);
+        if (aggroTarget) enemyState = States.Follow;
+        
+    }
+
+    public virtual void Follow()
+    {
+        /* By default, enemies will simply follow the player when aggroed. 
+         * If it stops seeing the player, and have reached the last place the player was seen, the enemy starts patrolling */
+        enemyState = States.Follow;
+        if(aggroTarget) moviment.SetTargetPosition(GetAggroTarget().transform.position + Vector3.zero, 1f); //Adds zero to pass a copy of target position.
+        else if (moviment.ReachedEndOfPath())
         {
-            Player player = other.GetComponent<HitBoxPlayer>().player;
-            player.damageToReceive -= contactDamage;
-            players_being_damaged.Remove(player);
+            enemyState = States.Patrol;
         }
     }
 
 
-    private void UpdateContactDamage()
+
+
+
+    protected IEnumerator LineOfSightLoop()
     {
-        foreach (Player p in players_being_damaged)
+        /* Default loop for detecting players in sight. It is called every [sighting_time] seconds.
+         * If the enemy has a target, it is considered to be aggroed, and will check for enemies 10x more frequently.
+         * If it is aggroed, it will first only check if it can see the target. If it can't, it will search for other players/minions in sight.*/
+        float time_modifier = 1f;
+        GameObject target;
+        while (true)
         {
-            p.damageToReceive -= contactDamage;
+            target = GetAggroTarget();
+            time_modifier = (target) ? 0.1f : 1f;
+            yield return new WaitForSeconds(sighting_time*time_modifier);
+            if (target)
+            {
+                if (!CanSeePlayer(target))
+                    ClosestPlayerInSight();
+            }
+            else
+                ClosestPlayerInSight();
         }
     }
 
-    private void OnDestroy()
+    public GameObject ClosestPlayerInSight()
     {
-        UpdateContactDamage();
-    }
+        /* Returns a single gameobject containing the closest Player in line of sight. Also updates "aggroTarget".*/
+        List<GameObject> player_list = GetAllPlayers();
+        //Sorts list by distance to the enemy.
+        player_list.Sort(delegate (GameObject a, GameObject b) {
+            return Vector2.Distance(this.transform.position, a.transform.position).CompareTo(Vector2.Distance(this.transform.position, b.transform.position));
+        });
 
-    public void ContactDamage(Player player)
-    {
-        player.ReceiveDamage(contactDamage);
-    }
 
-    public void TakeDamage(float damage)
-    {
-        hp -= damage;
-
-        brain.AggroEnemy();
-        textDamage_GO.SetActive(true);
-        textDamage.text = "-" + damage.ToString();
-        StartCoroutine(CooldownText());
-
-        if (hp <= 0)
+        foreach (GameObject p in player_list)
         {
-            morreu();
-            return;
+
+            if (CanSeePlayer(p))
+            {
+                aggroTarget = p;
+                return p;
+            }
         }
         
-
-
-        // faz o urro @marcin
-    }
-    IEnumerator CooldownText()
-    {
-        yield return new WaitForSeconds(1f);
-        textDamage_GO.SetActive(false);
-    }
-    public void morreu()
-    {
-        Debug.Log("F no chat // morreu");
-        transform.parent.gameObject.SetActive(false);
-        // morreu
-        GameModeController.Instance.EnemyDeath();
+        aggroTarget = null;
+        return null;
     }
 
-    private void OnDisable()
+    protected Vector2 endpos=Vector2.down;
+    public bool CanSeePlayer(GameObject player_to_find)
     {
-        Instantiate(fireworks,this.transform.position,Quaternion.identity);
+        /**Checks if enemy can see a specific gameobject, within a specified sight_range. If there are walls between enemy/gameobject, returns false.*/
+
+        float final_sight_range = (aggroTarget) ? sight_range*3 : sight_range;
+
+        endpos = this.transform.position + (player_to_find.transform.position - this.transform.position).normalized * final_sight_range;
+
+        if (Vector2.Distance(player_to_find.transform.position, this.transform.position) > final_sight_range)
+            return false; //Don't even do raycasts if player is too far away to be seen.
+
+        
+        LayerMask hitLayers = 1 << LayerMask.NameToLayer("Walls") | 1 << LayerMask.NameToLayer("Player");
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, endpos, hitLayers);// Raycasts a line between the enemy and player. Checks if there is a wall in the middle.
+        
+        if (hit.collider != null)
+        {
+            
+            return hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("PlayerHitBox"); //If there is a wall between enemy/player, returns false.
+        }
+        return false;
     }
+
+    public GameObject GetAggroTarget()
+    {
+        return aggroTarget;
+    }
+
+    void OnDrawGizmos()
+    {
+        // Draw line from enemy to player.
+        Gizmos.color = (aggroTarget) ? Color.red : Color.blue;
+        Gizmos.DrawLine(transform.position, endpos);
+    }
+
+    protected List<GameObject> GetAllPlayers() // WIP, better elsewhere.
+    {
+        /* Returns a list with references to all players and minions GameObjects.
+         * Still need to change this function so that it only updates a list when necessary, or just pulls the list from another script (maybe a singleton?).*/
+        return new List<GameObject>() { player.GameObject() };
+    }
+
+    public virtual void TakeDamage(float damage)
+    {
+        HP = HP - damage;
+        if (HP < 0)
+        {
+            Die();
+        }
+    }
+
+    protected virtual void Die()
+    {
+        /** Called by ReceiveDamage() when HP<0.*/
+        Destroy(this, 0.2f); //Destroys after 0.2 seconds.
+    }
+
+
+    public virtual void UpdateVisual()
+    {
+
+    }
+
+    public virtual void UpdateAnimations()
+    {
+
+    }
+
+    public virtual void Update()
+    {
+
+        if (CanAttack()) enemyState = States.Attack;
+
+        switch (enemyState) {
+            case States.Patrol:
+                Patrol();
+                break;
+            case States.Follow:
+                Follow();
+                break;
+            case States.Attack:
+                Attack();
+                break;
+        }
+            
+
+        UpdateAnimations();
+        UpdateVisual();
+    }
+
+
 }

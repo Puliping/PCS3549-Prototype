@@ -33,8 +33,8 @@ public class Weapon : MonoBehaviour
         Petrify
     }
     public List<WordType> wordList;
-    public float[] wordMagnitudePrimary; //magnitude da aplicação ex 5s de slow, slow sendo uma keyword fixa ou seja sempre slowa em 30%
-    public float[] wordMagnitudeSecondary; //chance da aplicação  ex 15% chance on hit
+    public float[] wordMagnitudePrimary; //magnitude da aplicaï¿½ï¿½o ex 5s de slow, slow sendo uma keyword fixa ou seja sempre slowa em 30%
+    public float[] wordMagnitudeSecondary; //chance da aplicaï¿½ï¿½o  ex 15% chance on hit
     public void SetWeapon(int Level, List<WordType> wordList, float[] wordMagnitudePrimary, float[] wordMagnitudeSecondary, float baseDamage, WeaponType type)
     {
 
@@ -91,7 +91,7 @@ public class Weapon : MonoBehaviour
         onCooldown = false;
     }
 
-    public void HitEnemy(Enemy enemy)
+    public void HitEnemy(OldEnemy enemy)
     {
 
     }
