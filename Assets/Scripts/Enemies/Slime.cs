@@ -8,36 +8,53 @@ public class Slime : Enemy
     private Vector2 spawn_position;
 
     private bool idlePathCooldown = true;
+    
+    
 
     public Animator animator;
 
-    public override void Attack()
-    {
-        base.Attack();
-        animator.Play("SlimeAttackAnimation");
-
-    }
+    
     public override void Start()
     {
         spawn_position = this.transform.position;
         moviment = GetComponent<EnemyMoviment>();
         StartCoroutine(LineOfSightLoop());
     }
+
+    private Vector3 dashDirection;
+    public override void Attack()
+    {
+        if (!CanAttack()) return;
+        base.Attack();
+        animator.Play("SlimeAttackAnimation");
+        StartCoroutine(AttackDash());
+    }
+
+    private float dashRatio = 0.7f;
+    private float dashspeed = 7f;
+    IEnumerator AttackDash()
+    {
+        yield return new WaitForSeconds(attackDuration*dashRatio);
+        dashDirection = aggroTarget.transform.position - this.transform.position;
+        moviment.ManualControl(dashDirection, dashspeed, attackDuration * (1-dashRatio));
+    }
+
     public override void Patrol()
     {
         /* While Patroling, slimes move slowly from one position to another close to the spawn*/
-        enemyState = States.Patrol;
+        base.Patrol();
         if (moviment.ReachedEndOfPath() && idlePathCooldown)
         {
             moviment.SetTargetPosition(Random.insideUnitCircle * 2 + spawn_position, .1f);
             StartCoroutine(PathCooldown());
         }; 
-        if (aggroTarget) enemyState = States.Follow;
-
-
-
     }
 
+    public override void Follow()
+    {
+        base.Follow();
+        if (aggroTarget) moviment.SetTargetPosition(aggroTarget.transform.position + Vector3.zero, 1f);
+    }
 
     private IEnumerator PathCooldown()
     {

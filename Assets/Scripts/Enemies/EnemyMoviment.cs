@@ -16,6 +16,7 @@ public class EnemyMoviment : MonoBehaviour
     private int currentWaypoint = 0;
     private bool reachedendofpath = true;
     private float speed_modifier = 1f;
+    public bool manual_control = false;
 
     Path path;
     Seeker seeker;
@@ -74,7 +75,7 @@ public class EnemyMoviment : MonoBehaviour
     private void SetSpeed(Vector2 dir, float speed)
     {
         /* Receives a vector2 direction and a float speed. Sets the RigidBody speed to their product.*/
-        rb.velocity = dir * speed;
+        rb.velocity = dir.normalized * speed;
     }
 
     private void ChangeWaypoint()
@@ -91,10 +92,28 @@ public class EnemyMoviment : MonoBehaviour
     {
         return reachedendofpath;
     }
-    
+
+    private Coroutine manualCoroutine;
+    public void ManualControl(Vector2 direction, float speed_modifier, float time)
+    {
+        /* Manually sets the enemy speed in a given direction. This state is kept for [time] seconds */
+        SetSpeed(direction, movespeed*speed_modifier);
+        if (manual_control) StopCoroutine(manualCoroutine);
+        manualCoroutine = StartCoroutine(ManualController(time));
+    }
+
+    private IEnumerator ManualController(float time)
+    {
+
+        manual_control = true;
+        yield return new WaitForSeconds(time);
+        manual_control = false;
+    }
             
     void Update()
     {
+        if (manual_control) return;
+
         if (path == null)
         {
             SetSpeed(Vector2.zero, 0);

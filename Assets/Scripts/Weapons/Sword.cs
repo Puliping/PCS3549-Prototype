@@ -30,7 +30,7 @@ public class Sword : MeleeWeapon
     IEnumerator AnimationCoroutine(Quaternion hitboxRotation)
     {
         activeCollider = hitboxCollider[combo];
-        //toca animação
+        //toca animaÃ§Ã£o
         yield return new WaitForSeconds(baseAttackDuration);
         activeCollider = null;
     }

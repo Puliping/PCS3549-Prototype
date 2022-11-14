@@ -91,23 +91,23 @@ public abstract class Enemy : MonoBehaviour
  
     public virtual void Patrol()
     {
-        /* By default, enemies remain stopped while pattroling. */
+        /* By default, enemies don't move. */
         enemyState = States.Patrol;
-        if (moviment.ReachedEndOfPath()) moviment.SetTargetPosition(transform.position + Vector3.zero, 0f);
         if (aggroTarget) enemyState = States.Follow;
+        //if (moviment.ReachedEndOfPath()) moviment.SetTargetPosition(transform.position + Vector3.zero, 0f);
+        
         
     }
 
     public virtual void Follow()
     {
-        /* By default, enemies will simply follow the player when aggroed. 
-         * If it stops seeing the player, and have reached the last place the player was seen, the enemy starts patrolling */
+        /* By default, enemies don't move*/
         enemyState = States.Follow;
-        if(aggroTarget) moviment.SetTargetPosition(GetAggroTarget().transform.position + Vector3.zero, 1f); //Adds zero to pass a copy of target position.
-        else if (moviment.ReachedEndOfPath())
+        if (!aggroTarget && moviment.ReachedEndOfPath() )
         {
             enemyState = States.Patrol;
         }
+        //if(aggroTarget) moviment.SetTargetPosition(GetAggroTarget().transform.position + Vector3.zero, 1f);
     }
 
 
