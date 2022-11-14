@@ -91,7 +91,7 @@ public class Weapon : MonoBehaviour
         onCooldown = false;
     }
 
-    public void HitEnemy(OldEnemy enemy)
+    public void HitEnemy(Enemy enemy)
     {
 
     }
