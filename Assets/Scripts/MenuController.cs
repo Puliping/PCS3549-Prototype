@@ -15,7 +15,7 @@ public class MenuController : MonoBehaviour
     }
     public void ChangeClass()
     {
-        LevelManager.Instance.playerlocal.SetClass(dropdown.value);      
+        LevelManager.Instance.localManager.SetClass(dropdown.value);      
     }
     public void ChangeScene()
     {

@@ -6,15 +6,15 @@ using UnityEngine.InputSystem;
 public class MovementController : MonoBehaviour
 {
     Vector2 moveDirection;
-    [SerializeField]
     private Player player;
-    private float movspeed;
+    private float movSpeed;
     [SerializeField]
     private Rigidbody2D rb;
 
     private void Start()
     {
-        movspeed = player.movSpeed;
+        player = LevelManager.Instance.localManager.playerRef;
+        movSpeed = player.movSpeed;
     }
     void OnMove(InputValue value)
     {
@@ -22,7 +22,7 @@ public class MovementController : MonoBehaviour
     }
     public void UpdatePlayerSpeed()
     {
-        movspeed = player.movSpeed;
+        movSpeed = player.movSpeed;
     }
 
     private void Update()
@@ -31,6 +31,6 @@ public class MovementController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.velocity = moveDirection* movspeed;
+        rb.velocity = moveDirection* movSpeed;
     }
 }

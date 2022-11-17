@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerMultiplayer : NetworkBehaviour
+public class MultiplayerManager : NetworkBehaviour
 {
     [SerializeField]
     private List<GameObject> playerClasses;
+    [HideInInspector] public Player playerRef {get; private set;}
 
     public enum Class
     {
@@ -25,7 +26,7 @@ public class PlayerMultiplayer : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            Instantiate(playerClasses[(int)playerSelectedClass], new Vector3(-20, -21, 0), Quaternion.identity);
+            playerRef = Instantiate(playerClasses[(int)playerSelectedClass], new Vector3(-20, -21, 0), Quaternion.identity).GetComponent<Player>();
             Debug.Log("playerSelectedClass = " + (int)playerSelectedClass);
             /*
             switch (playerSelectedClass)
@@ -48,7 +49,7 @@ public class PlayerMultiplayer : NetworkBehaviour
         {
             if (this.gameObject.name == "LocalGamePlayer")
             {
-                LevelManager.Instance.playerlocal = this;
+                LevelManager.Instance.localManager = this;
             }
             return;
         }
@@ -56,18 +57,7 @@ public class PlayerMultiplayer : NetworkBehaviour
 
     public void SetClass(int number)
     {
-        switch (number)
-        {
-            case 0:
-                playerSelectedClass = Class.HumanFighter;
-                break;
-            case 1:
-                playerSelectedClass = Class.Frenzy;
-                break;
-            case 2:
-                playerSelectedClass = Class.HookGuy;
-                break;
-        }
+        playerSelectedClass = (Class) number;
     }
 
     public override void OnStartAuthority()

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5439285552411858062}
   - component: {fileID: 6954978197596241656}
   m_Layer: 0
-  m_Name: PlayerMultiplayer
+  m_Name: MultiplayerManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1741283091087931541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c32cbcfb0927a3e42ba505e020fbb203, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d2789eb0f9c7694dab09d7a1fab6d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
