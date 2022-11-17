@@ -12,7 +12,8 @@ public class PlayerMultiplayer : NetworkBehaviour
     public enum Class
     {
         HumanFighter,
-        Frenzy
+        Frenzy,
+        HookGuy
     }
     public Class playerSelectedClass = Class.HumanFighter;
 
@@ -24,14 +25,19 @@ public class PlayerMultiplayer : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
+            Instantiate(playerClasses[(int)playerSelectedClass], new Vector3(-20, -21, 0), Quaternion.identity);
+            Debug.Log("playerSelectedClass = " + (int)playerSelectedClass);
+            /*
             switch (playerSelectedClass)
             {
                 case Class.HumanFighter:
                     Instantiate(playerClasses[0], new Vector3(-20, -21, 0), Quaternion.identity);
                     break;
                 case Class.Frenzy:
+                    Instantiate(playerClasses[1], new Vector3(-20, -21, 0), Quaternion.identity);
                     break;
             }
+            */
         }
     }
 
@@ -57,6 +63,9 @@ public class PlayerMultiplayer : NetworkBehaviour
                 break;
             case 1:
                 playerSelectedClass = Class.Frenzy;
+                break;
+            case 2:
+                playerSelectedClass = Class.HookGuy;
                 break;
         }
     }

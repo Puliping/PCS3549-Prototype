@@ -1957,6 +1957,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Frenzy
       m_Image: {fileID: 0}
+    - m_Text: Hook Guy
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:

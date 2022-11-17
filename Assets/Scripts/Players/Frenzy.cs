@@ -11,7 +11,7 @@ public class Frenzy : Player
 
     // Charge variables
     private Queue<Coroutine> chargeCoroutineQueue;
-    private bool enemyHitOnAttack;
+    private bool enemyHitOnAttack = true;
     private int hitsNeededForCharge = 3;
     private int currentHits = 0;
     private int currentCharges = 0;
@@ -31,7 +31,13 @@ public class Frenzy : Player
     public override void OnAttack()
     {
         base.OnAttack();
-        // TODO: lógica de atingir inimigo precisa estar feita para atualizar
+        HitEnemy();
+    }
+
+    public override void HitEnemy()
+    {
+        base.HitEnemy();
+        // TODO: lÃ³gica de atingir inimigo precisa estar feita para atualizar
         if (enemyHitOnAttack)
         {
             if (++currentHits == hitsNeededForCharge)
@@ -39,16 +45,22 @@ public class Frenzy : Player
                 if (currentCharges >= maxCharges)
                 {
                     // refresh oldest charge
+                    Debug.Log("Frenzy: refresh oldest charge");
                     StopCoroutine(chargeCoroutineQueue.Peek());
                     removeOldestCharge();
                 }
-                chargeCoroutineQueue.Enqueue(StartCoroutine(Charge()));
+                currentHits = 0;
+                Coroutine newCharge = StartCoroutine(Charge());
+                chargeCoroutineQueue.Enqueue(newCharge);
             }
         }
+        Debug.Log("Frenzy: currently has " + currentCharges  + " charges");
+        Debug.Log("Frenzy: currentHits = " + currentHits);
     }
 
     IEnumerator Charge()
     {
+        Debug.Log("Frenzy: new charge");
         currentCharges++;
         UpdateModifiers();
         yield return new WaitForSeconds(chargeUptime);
@@ -57,6 +69,7 @@ public class Frenzy : Player
 
     void removeOldestCharge()
     {
+        Debug.Log("Frenzy: oldest charge removed");
         if (currentCharges >= 0)
         {
             currentCharges--;

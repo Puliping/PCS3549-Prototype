@@ -50,7 +50,8 @@ MonoBehaviour:
   syncInterval: 0.1
   playerClasses:
   - {fileID: 2585964830893044366, guid: de988f437b501124598a9e28a5be83f1, type: 3}
-  - {fileID: 0}
+  - {fileID: 2585964830893044366, guid: c4e24b97983a0d945a39701c1a1421d7, type: 3}
+  - {fileID: 2585964830893044366, guid: 86000dfb88404624e89c637242ee1897, type: 3}
   playerSelectedClass: 0
 --- !u!114 &6954978197596241656
 MonoBehaviour:

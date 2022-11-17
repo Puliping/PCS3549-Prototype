@@ -36,7 +36,7 @@ public abstract class Player : MonoBehaviour
         canUseSkill = true;
         Debug.Log("Skill is ready");
     }
-    public void HitEnemy()
+    public virtual void HitEnemy()
     {
 
     }
@@ -119,7 +119,7 @@ public abstract class Player : MonoBehaviour
     // TODO: rubens tem que arrumar a on attack e o contexto
     public virtual void OnAttack()
     {
-        Debug.Log("OnAttack");
+        // Debug.Log("OnAttack");
     }
 
     private bool canDash = true;
