@@ -10,13 +10,13 @@ public class Frenzy : Player
     public float baseAttackMultiplierPerCharge = .01f;
 
     // Charge variables
-    private Queue<Coroutine> chargeCoroutineQueue;
-    private bool enemyHitOnAttack = true;
-    private int hitsNeededForCharge = 3;
+    private int hitsNeededForCharge = 1;
     private int currentHits = 0;
-    private int currentCharges = 0;
     private int maxCharges = 10;
+    private int currentChargeCounter = 0;
     private float chargeUptime = 5f;
+    // Actual number of charges is hard-capped by maxCharges
+    private int currentCharges => Mathf.Min(currentChargeCounter, maxCharges);
 
     public override void OnSkill()
     {
@@ -25,6 +25,7 @@ public class Frenzy : Player
         {
             Debug.Log("OnSkill");
             StartCoroutine(SkillCooldown(baseSkillCD));
+            RemoveAllCharges();
         }
     }
 
@@ -37,49 +38,47 @@ public class Frenzy : Player
     public override void HitEnemy()
     {
         base.HitEnemy();
-        // TODO: lógica de atingir inimigo precisa estar feita para atualizar
-        if (enemyHitOnAttack)
+        if (++currentHits == hitsNeededForCharge)
         {
-            if (++currentHits == hitsNeededForCharge)
+            // Just setting an upper bound so the charge number doesn't break anything
+            if (currentChargeCounter <= 3 * maxCharges)
             {
-                if (currentCharges >= maxCharges)
-                {
-                    // refresh oldest charge
-                    Debug.Log("Frenzy: refresh oldest charge");
-                    StopCoroutine(chargeCoroutineQueue.Peek());
-                    removeOldestCharge();
-                }
+                StartCoroutine(Charge());
                 currentHits = 0;
-                Coroutine newCharge = StartCoroutine(Charge());
-                chargeCoroutineQueue.Enqueue(newCharge);
             }
         }
-        Debug.Log("Frenzy: currently has " + currentCharges  + " charges");
+        Debug.Log("Frenzy: currently has " + currentChargeCounter + " charges");
         Debug.Log("Frenzy: currentHits = " + currentHits);
     }
 
     IEnumerator Charge()
     {
         Debug.Log("Frenzy: new charge");
-        currentCharges++;
-        UpdateModifiers();
+        AddCharge();
         yield return new WaitForSeconds(chargeUptime);
-        removeOldestCharge();
+        RemoveCharge();
     }
 
-    void removeOldestCharge()
+    void AddCharge()
     {
-        Debug.Log("Frenzy: oldest charge removed");
-        if (currentCharges >= 0)
+        currentChargeCounter++;
+        UpdateModifiers();
+    }
+
+    void RemoveCharge()
+    {
+        currentChargeCounter--;
+        UpdateModifiers();
+    }
+
+    void RemoveAllCharges()
+    {
+        for (int i = 0; i < currentChargeCounter; i++)
         {
-            currentCharges--;
-            chargeCoroutineQueue.Dequeue();
-            UpdateModifiers();
+            StopCoroutine(Charge());
         }
-        else
-        {
-            Debug.LogError("Frenzy com cargas negativas");
-        }
+        currentChargeCounter = 0;
+        UpdateModifiers();
     }
 
     void UpdateModifiers()

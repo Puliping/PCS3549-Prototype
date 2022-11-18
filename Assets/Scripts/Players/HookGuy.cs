@@ -10,16 +10,21 @@ public class HookGuy : Player
     [SerializeField] private MovementController mc;
 
     // Skill variables
-    public float baseSkillCD = 8f;
+    public float baseSkillCD = 3f;
     public float baseMaxSkillRange = 10f;
     public float baseSkillHitDamage = 1f;
     public float baseSkillContactDamage = 1f;
     public float baseSkillHookSpeed = 10f;
-    public float baseSkillHookShotSpeed = 10f;
+    public float baseSkillHookShotSpeed = 100f;
     public Vector2 hitLocation;
     private bool pulling = false;
     private Enemy enemyHit;
     private float baseMovSpeed;
+
+    public void Start()
+    {
+        hookableLayers = LayerMask.GetMask("Enemy") | LayerMask.GetMask("Walls");
+    }
 
     public void Update()
     {
@@ -67,8 +72,11 @@ public class HookGuy : Player
 
                 // Find if it's an enemy
                 enemyHit = hit.collider.GetComponentInChildren<Enemy>();
-                // enemyHit.ReceiveDamage(baseSkillHitDamage);
-                Debug.Log("hit " + enemyHit.name);
+                if (enemyHit != null)
+                {
+                    // enemyHit.ReceiveDamage(baseSkillHitDamage);
+                    Debug.Log("hit " + enemyHit.name);
+                }
 
                 StartCoroutine(Hook());
             }
@@ -84,7 +92,7 @@ public class HookGuy : Player
         mc.UpdatePlayerSpeed();
 
         float currentTime = 0;
-        float maxHookingTime = 10;
+        float maxHookingTime = 5 * (Vector2.Distance(transform.position, hitLocation)) / baseMaxSkillRange;
 
         lr.SetPosition(0, transform.position);
         lr.SetPosition(1, transform.position);
