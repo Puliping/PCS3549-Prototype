@@ -33,4 +33,9 @@ public class MovementController : MonoBehaviour
     {
         rb.velocity = moveDirection* movSpeed;
     }
+
+    public Vector2 GetMoveDirection()
+    {
+        return moveDirection;
+    }
 }
