@@ -11,8 +11,11 @@ public class Weapon : MonoBehaviour
     public Player playerOwner;
     public bool onCooldown;
     public float baseDamage = 10;
+    public GameObject spriteRef;
     //ranged 
     float baseProjectileSpeed = 10;
+
+    protected ContactFilter2D enemyFilter = new ContactFilter2D();
 
     public float chargeTime { get; private set;} = .5f;
     public enum WeaponType
@@ -78,7 +81,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Attack()
+    virtual public void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
     {
         WordsEffectOnHit(wordList);
     }
@@ -116,9 +119,11 @@ public class Weapon : MonoBehaviour
         
     }
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-
+        Debug.Log("Set player ref in Weapon");
+        //playerOwner = LevelManager.Instance.localManager.playerRef;
+        enemyFilter.SetLayerMask(LayerMask.NameToLayer("Enemy"));
     }
 
     // Update is called once per frame

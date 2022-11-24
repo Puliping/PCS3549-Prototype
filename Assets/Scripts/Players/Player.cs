@@ -14,6 +14,7 @@ public abstract class Player : MonoBehaviour
     public float attackMultiplier = 1f;
     public float movSpeedMultiplier = 1f;
     public Weapon weapon;
+    public GameObject weaponGameObject;
     private bool isInvulnerable = false;
     public Vector2 aimPosition;
     public float damageToReceive = 0;
@@ -26,6 +27,12 @@ public abstract class Player : MonoBehaviour
     [SerializeField]
 
     public static bool canUseSkill = true;
+
+    private void Start()
+    {
+        weaponGameObject = Instantiate(weaponGameObject,transform);
+        weapon = weaponGameObject.GetComponent<Weapon>();
+    }
 
     public virtual void OnSkill() { }
 
@@ -119,7 +126,9 @@ public abstract class Player : MonoBehaviour
     // TODO: rubens tem que arrumar a on attack e o contexto
     public virtual void OnAttack()
     {
-        // Debug.Log("OnAttack");
+        Debug.Log("OnAttack");
+        // n esquece de pegar aqui
+        weapon.Attack(aimPosition);
     }
 
     private bool canDash = true;

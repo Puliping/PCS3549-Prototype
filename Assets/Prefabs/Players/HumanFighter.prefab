@@ -144,6 +144,7 @@ MonoBehaviour:
   attackMultiplier: 1
   movSpeedMultiplier: 1
   weapon: {fileID: 0}
+  weaponGameObject: {fileID: 6999102570090801731, guid: c5644c9431214944a9abb1069606df7c, type: 3}
   aimPosition: {x: 0, y: 0}
   damageToReceive: 0
   movementController: {fileID: 6569135224370903192}
@@ -170,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c94ad55a0adcb499e412fee502a877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1602812986191120583}
   rb: {fileID: 7046480973689437837}
 --- !u!114 &3626803213577492067
 MonoBehaviour:

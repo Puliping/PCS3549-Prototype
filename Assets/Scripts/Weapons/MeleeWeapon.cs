@@ -13,10 +13,11 @@ public class MeleeWeapon : Weapon
     public GameObject hitbox2;
     public GameObject hitbox3;
     public GameObject hitboxCharged;
-    public Collider2D[] hitboxCollider;
+    public Collider2D[] hitboxCollider = new Collider2D[5];
     public Collider2D activeCollider;
     Collider2D[] hits = new Collider2D[100];
-    ContactFilter2D enemyFilter = new ContactFilter2D();
+
+    public Animator animator;
 
     IEnumerator ComboTimerCoroutine(float comboTimer)
     {
@@ -24,9 +25,15 @@ public class MeleeWeapon : Weapon
         combo = 0;
     }
 
-    public virtual void MeleeAttack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
+    public override void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
     {
-        base.Attack();
+        if (combo == 3)
+            combo = 0;
+        combo++;
+        if(comboCoroutine != null)
+            StopCoroutine(comboCoroutine);
+        comboCoroutine = StartCoroutine(ComboTimerCoroutine(baseComboTimer*playerComboTimerMulti));
+        base.Attack(aimDirection, playerComboTimerMulti, playerDamageMulti);
         if (!onCooldown)
         {
             damage = baseDamage * comboMult[combo] * playerDamageMulti;
@@ -62,13 +69,10 @@ public class MeleeWeapon : Weapon
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        hitboxCollider[1] = hitbox1.GetComponent<Collider2D>();
-        hitboxCollider[2] = hitbox2.GetComponent<Collider2D>();
-        hitboxCollider[3] = hitbox3.GetComponent<Collider2D>();
-        hitboxCollider[4] = hitboxCharged.GetComponent<Collider2D>();
-        enemyFilter.SetLayerMask(LayerMask.NameToLayer("Enemy")); //Codigo mudado aq tbm
+        Debug.Log("MeleeWeapon");
+        base.Start();
     }
 
     // Update is called once per frame
