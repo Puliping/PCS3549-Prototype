@@ -696,6 +696,7 @@ MonoBehaviour:
   canvasRoot: {fileID: 1194516318}
   enemiesAlive: 0
   finalText: {fileID: 1770151764}
+  player: []
 --- !u!1001 &240008986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9114,7 +9115,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082760779}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a634230476dc478b88eceac73b1c8a4, type: 3}
   m_Name: 
@@ -98056,9 +98057,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 819482433181592676, guid: b4b2654883859184ab2d37dbc5ea168b, type: 3}
-      propertyPath: player
+      propertyPath: gameModeController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 195225746}
     - target: {fileID: 819482433181592685, guid: b4b2654883859184ab2d37dbc5ea168b, type: 3}
       propertyPath: m_Name
       value: BlueSlime

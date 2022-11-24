@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
@@ -18,8 +19,8 @@ public abstract class Enemy : MonoBehaviour
     public float attackDuration = 0.5f;
     public float attack_range = 2f;
     public float sight_range = 3f;
-
-    public GameObject player; //TO-DO make slimes able to get player/minions objects references during runtime
+    [SerializeField]
+    public GameModeController gameModeController; //TO-DO make slimes able to get player/minions objects references during runtime
 
 
     protected GameObject aggroTarget = null;
@@ -60,7 +61,6 @@ public abstract class Enemy : MonoBehaviour
     {
         onAttackCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
-        Debug.Log("Can attack again");
         onAttackCooldown = false;
 
     }
@@ -68,7 +68,6 @@ public abstract class Enemy : MonoBehaviour
     {
         moviment.SetSpeedModifier(0f);
         yield return new WaitForSeconds(attackDuration);
-        Debug.Log("Attack ended");
         moviment.SetSpeedModifier(1f);
         enemyState = States.Follow;
 
@@ -82,7 +81,6 @@ public abstract class Enemy : MonoBehaviour
          * To do.
          */
         if (!CanAttack()) return;
-        Debug.Log("Enemy attacks player!");
         
         StartCoroutine(AttackCooldown());
         Coroutine attackCoroutine = StartCoroutine(AttackDuration());
@@ -196,11 +194,9 @@ public abstract class Enemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, endpos);
     }
 
-    protected List<GameObject> GetAllPlayers() // WIP, better elsewhere.
+    protected List<GameObject> GetAllPlayers() 
     {
-        /* Returns a list with references to all players and minions GameObjects.
-         * Still need to change this function so that it only updates a list when necessary, or just pulls the list from another script (maybe a singleton?).*/
-        return new List<GameObject>() { player.GameObject() };
+        return  gameModeController.GetPlayers().ToList<GameObject>() ;
     }
 
     public virtual void TakeDamage(float damage)

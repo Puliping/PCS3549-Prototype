@@ -8,7 +8,8 @@ public class Slime : Enemy
     private Vector2 spawn_position;
 
     private bool idlePathCooldown = true;
-    
+    [SerializeField]
+    private GameObject slimeWeapon;
     
 
     public Animator animator;
@@ -24,8 +25,10 @@ public class Slime : Enemy
     private Vector3 dashDirection;
     public override void Attack()
     {
+        
         if (!CanAttack()) return;
         base.Attack();
+        slimeWeapon.SetActive(true);
         animator.Play("SlimeAttackAnimation");
         StartCoroutine(AttackDash());
     }

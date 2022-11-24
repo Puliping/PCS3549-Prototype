@@ -12,7 +12,7 @@ public class GameModeController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI finalText;
 
-    private GameObject player;
+    public GameObject[] player;
     // Start is called before the first frame update
     private void Awake()
     {   
@@ -23,8 +23,10 @@ public class GameModeController : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this);
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        
     }
+
+
     public void EnemyDeath()
     {
         enemiesAlive--;
@@ -46,10 +48,10 @@ public class GameModeController : MonoBehaviour
     }
     void Start()
     {
-        
+        player = GameObject.FindGameObjectsWithTag("Player");
     }
 
-    public GameObject GetPlayer()
+    public GameObject[] GetPlayers()
     {
         return player;
     }

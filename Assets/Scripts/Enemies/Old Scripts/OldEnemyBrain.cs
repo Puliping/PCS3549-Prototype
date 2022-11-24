@@ -20,7 +20,7 @@ public class OldEnemyBrain : MonoBehaviour
         internalMovement = GetComponent<OldEnemyMovement>();
         spawn_position = transform.position + Vector3.zero;
         StartCoroutine(SeePlayerLoop(0.4f));
-        player = GameModeController.Instance.GetPlayer();
+        //player = GameModeController.Instance.GetPlayer();
     }
 
     public float aggro_range = 5f; //Distance to see player
