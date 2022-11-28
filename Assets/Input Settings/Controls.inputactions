@@ -24,6 +24,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ChargedAttack",
+                    "type": "Button",
+                    "id": "dcdc3b1b-0d50-45d4-9b26-6f2b1f27f44e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Aim",
                     "type": "Value",
                     "id": "27640fc2-bca0-4fe8-acab-53f3c1b82fd1",
@@ -203,6 +212,28 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "542a8c6f-b77c-4672-9729-3ddcc458988a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "ChargedAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a120ecb7-972f-4347-af28-a612eedc39c7",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "ChargedAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

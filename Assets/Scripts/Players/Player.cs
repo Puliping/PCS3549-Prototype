@@ -10,25 +10,41 @@ public abstract class Player : MonoBehaviour
 {
     public float hp;
     public float movSpeed;
-    public float invulnerableTime = .5f;
+    public float invulnerableDuration = .5f;
     public float attackMultiplier = 1f;
     public float movSpeedMultiplier = 1f;
     public Weapon weapon;
     public GameObject weaponGameObject;
-    private bool isInvulnerable = false;
+    protected bool isInvulnerable = false;
     public Vector2 aimPosition;
-    public float damageToReceive = 0;
-    public delegate void receiveDamage();
-    /*public event receiveDamage takeDamageAfterInvulnTime;*/
+    
     [SerializeField]
-    private MovementController movementController;
+    protected MovementController movementController;
     [SerializeField]
-    private TextMeshProUGUI textDamage;
+    protected TextMeshProUGUI textDamage;
     [SerializeField]
 
     public static bool canUseSkill = true;
 
-    private void Start()
+    protected Controls controls;
+
+    protected enum DashType { Roll, Dash }
+
+    [SerializeField]
+    protected DashType dashType = DashType.Dash;
+
+    protected virtual void Awake()
+    {
+        controls = new Controls();
+        movementController = gameObject.GetComponent<MovementController>();
+    }
+
+    protected virtual void OnEnable()
+    {
+        // controls.Exploration.Attack.performed += Attack;
+        controls.Exploration.Enable();
+    }
+    protected virtual void Start()
     {
         weaponGameObject = Instantiate(weaponGameObject, transform);
         weapon = weaponGameObject.GetComponentInChildren<Weapon>();
@@ -47,57 +63,57 @@ public abstract class Player : MonoBehaviour
     {
 
     }
-    public void ReceiveXp()
+    public virtual void ReceiveXp()
     {
 
     }
-    public void UpPlayer()
+    public virtual void UpPlayer()
     {
 
     }
-    public void UpdateVisual()
+    public virtual void UpdateVisual()
     {
 
     }
-    public void CmdUpdateVisual()
+    public virtual void CmdUpdateVisual()
     {
 
     }
-    public void RpcUpdateVisual()
+    public virtual void RpcUpdateVisual()
     {
 
     }
 
-    public void UpdateAnimations()
+    public virtual void UpdateAnimations()
     {
 
     }
-    public void CmdUpdateAnimations()
+    public virtual void CmdUpdateAnimations()
     {
 
     }
-    public void RpcUpdateAnimations()
+    public virtual void RpcUpdateAnimations()
     {
 
     }
-    public void UpdateCanvas()
+    public virtual void UpdateCanvas()
     {
 
 
     }
-    public void CmdUpdateCanvas()
+    public virtual void CmdUpdateCanvas()
     {
 
     }
-    public void RpcUpdateCanvas()
+    public virtual void RpcUpdateCanvas()
     {
 
     }
-    public void Interact()
+    public virtual void Interact()
     {
 
     }
-    void OnAim(InputValue value)
+    protected virtual void OnAim(InputValue value)
     {
         Vector2 aim = value.Get<Vector2>();
         if (PlayerInput.GetPlayerByIndex(0).currentControlScheme == "Keyboard and Mouse")
@@ -108,44 +124,65 @@ public abstract class Player : MonoBehaviour
         }
         aimPosition = new Vector2(aim.x, aim.y);
     }
-    /*
-    void OnAttack(InputAction.CallbackContext context)
-    {
-        if(context.started){
-            weapon.Attack();
-        }
-        else if(context.canceled) 
-        {
-            if(context.duration > weapon.chargeTime) {
-                weapon.ChargedAttack();
-            }
-        }
-    }
-    */
+
+    // virtual void Attack(InputAction.CallbackContext context)
+    // {
+    //     if(context.started){
+    //         weapon.Attack(aimPosition);
+    //     }
+    //     else if(context.canceled) 
+    //     {
+    //         if(context.duration > weapon.chargeTime) {
+    //             weapon.ChargedAttack(aimPosition);
+    //         }
+    //     }
+    // }
 
     // TODO: rubens tem que arrumar a on attack e o contexto
-    public virtual void OnAttack()
+    protected virtual void OnAttack()
     {
         Debug.Log("OnAttack");
         // n esquece de pegar aqui
         weapon.Attack(aimPosition);
     }
 
-    private bool canDash = true;
-    public float dashCooldown = 1f;
-    IEnumerator OnDash()
+    protected virtual void OnChargedAttack()
     {
-        if(!canDash) yield return null;
-
-        canDash = false;
-        UseDash();
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
+        Debug.Log("charged attack");
+        weapon.ChargedAttack(aimPosition);
     }
 
-    private void UseDash()
+    protected bool canDash = true;
+    public float dashCooldown = 1f;
+    protected virtual void OnDash()
     {
-        throw new NotImplementedException();
+        if (!canDash) return;
+        StartCoroutine(UseDash());
+    }
+
+    protected IEnumerator UseDash()
+    {
+        // disable future dashes, will need to change if dash gets more than one charge
+        canDash = false;
+
+        // set up invincibility dash, if that's the case
+        // float speedMod = 1.2f;
+        if (dashType == DashType.Dash)
+        {
+            StartCoroutine(InvulnerabilityCooldown(1f));
+            // speedMod = 1.5f;
+        }
+
+        movementController.dashing = true;
+        movementController.dashDirection = aimPosition.normalized;
+
+        yield return new WaitForSeconds(.5f);
+
+        movementController.dashing = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+
+        canDash = true;
     }
 
     /*Usar essa funcao para o WeaponMaster*/
@@ -207,42 +244,38 @@ public abstract class Player : MonoBehaviour
         firing = false;
     }
     */
-    public void ReceiveDamage(float damage)
+    public virtual void ReceiveDamage(float damage)
     {
-        if(isInvulnerable)
-        {
+        if (isInvulnerable) {
+            Debug.Log("hit while invunerable");
             return;
         }
-
         hp -= damage;
+
         //knockback effect?
+
         textDamage.gameObject.SetActive(true);
         textDamage.text = "-" + damage.ToString();
 
-        if (hp <= 0)
-        {
-            Die();
-        }
+        if (hp <= 0) Die();
 
-        isInvulnerable = true;
         StartCoroutine(InvulnerabilityCooldown());
     }
 
-    public void Die()
+    protected virtual void Die()
     {
         GameModeController.Instance.Defeat();
         movSpeed = 0;
         movementController.UpdatePlayerSpeed();
+        movementController.enabled = false;
     }
 
-    IEnumerator InvulnerabilityCooldown()
+    protected IEnumerator InvulnerabilityCooldown(float? duration = null)
     {
-        yield return new WaitForSeconds(invulnerableTime);
-        textDamage.gameObject.SetActive(false);
+        float time = duration ?? invulnerableDuration;
+        isInvulnerable = true;
+        yield return new WaitForSeconds(time);
+        textDamage?.gameObject.SetActive(false);
         isInvulnerable = false;
-        if(damageToReceive != 0)
-        {
-            ReceiveDamage(damageToReceive);
-        }
     }
 }

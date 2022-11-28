@@ -7,7 +7,6 @@ public class HookGuy : Player
     [SerializeField] public LayerMask hookableLayers;
     [SerializeField] public LayerMask enemyLayers;
     [SerializeField] public LineRenderer lr;
-    [SerializeField] private MovementController mc;
 
     // Skill variables
     private float baseSkillCD = 3f;
@@ -32,8 +31,9 @@ public class HookGuy : Player
     private float maxHookingTime;
     private float maxPullingTime;
 
-    public void Start()
+    public new void Start()
     {
+        base.Start();
         // Layermasks that can be hooked
         hookableLayers = LayerMask.GetMask("Enemy") | LayerMask.GetMask("Walls");
     }
@@ -65,7 +65,7 @@ public class HookGuy : Player
             {
                 // Return speed to old value
                 movSpeed = baseMovSpeed;
-                mc.UpdatePlayerSpeed();
+                movementController.UpdatePlayerSpeed();
 
                 pulling = false;
                 lr.enabled = false;
@@ -163,7 +163,7 @@ public class HookGuy : Player
         if (targetFound)
         {
             // Get current move direction
-            moveDirectionOnSkill = mc.GetMoveDirection().normalized;
+            moveDirectionOnSkill = movementController.GetMoveDirection();
             positionOnSkill = transform.position;
 
             // Point based on the movement direction when the skill was activated
@@ -172,7 +172,7 @@ public class HookGuy : Player
             // Update player speed to 0 while hook is active
             baseMovSpeed = movSpeed;
             movSpeed = 0;
-            mc.UpdatePlayerSpeed();
+            movementController.UpdatePlayerSpeed();
 
             pulling = true;
             targetFound = false;

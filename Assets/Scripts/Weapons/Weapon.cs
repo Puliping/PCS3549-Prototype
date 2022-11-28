@@ -22,7 +22,7 @@ public class Weapon : MonoBehaviour
 
     protected ContactFilter2D enemyFilter = new ContactFilter2D();
 
-    protected float chargeTime { get; private set;} = .5f;
+    public float chargeTime { get; protected set;} = .5f;
 
     protected enum WeaponType
     {
@@ -91,7 +91,10 @@ public class Weapon : MonoBehaviour
         //WordsEffectOnHit(wordList);
     }
 
-
+    public virtual void ChargedAttack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
+    {
+        // TODO charged attack
+    }
 
     protected IEnumerator AttackCooldown()
     {

@@ -29,7 +29,7 @@ public class Frenzy : Player
         }
     }
 
-    public override void OnAttack()
+    protected override void OnAttack()
     {
         base.OnAttack();
         HitEnemy();

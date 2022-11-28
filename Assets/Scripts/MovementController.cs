@@ -10,6 +10,8 @@ public class MovementController : MonoBehaviour
     private float movSpeed;
     [SerializeField]
     private Rigidbody2D rb;
+    public bool dashing = false;
+    public Vector2 dashDirection;
 
     private void Start()
     {
@@ -31,7 +33,14 @@ public class MovementController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.velocity = moveDirection* movSpeed;
+        if (!dashing)
+            rb.velocity = moveDirection * movSpeed;
+        else
+            rb.velocity = dashDirection * movSpeed * 1.5f;
+    }
+
+    public void Dash(Vector2 aimPosition)
+    {
     }
 
     public Vector2 GetMoveDirection()
