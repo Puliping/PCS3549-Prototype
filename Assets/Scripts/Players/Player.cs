@@ -30,8 +30,8 @@ public abstract class Player : MonoBehaviour
 
     private void Start()
     {
-        weaponGameObject = Instantiate(weaponGameObject,transform);
-        weapon = weaponGameObject.GetComponent<Weapon>();
+        weaponGameObject = Instantiate(weaponGameObject, transform);
+        weapon = weaponGameObject.GetComponentInChildren<Weapon>();
     }
 
     public virtual void OnSkill() { }

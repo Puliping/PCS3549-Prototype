@@ -4,29 +4,35 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public float damage;
-    public int level;
-    public float attackCooldown;
-    public float baseAttackDuration;
+    protected float damage;
+    protected int level;
+    [SerializeField]
+    protected float attackCooldown;
+    [SerializeField]
+    protected float baseAttackDuration;
     public Player playerOwner;
-    public bool onCooldown;
-    public float baseDamage = 10;
-    public GameObject spriteRef;
+    protected bool onCooldown = false;
+    [SerializeField]
+    protected float baseDamage = 10;
+    [SerializeField]
+    protected GameObject hitboxSprite;
     //ranged 
-    float baseProjectileSpeed = 10;
+    [SerializeField]
+    protected float baseProjectileSpeed = 10;
 
     protected ContactFilter2D enemyFilter = new ContactFilter2D();
 
-    public float chargeTime { get; private set;} = .5f;
-    public enum WeaponType
+    protected float chargeTime { get; private set;} = .5f;
+
+    protected enum WeaponType
     {
         Sword,
         Staff,
         Book,       
         Bow
     }
-    public WeaponType type;
-    public enum WordType
+    protected WeaponType type;
+    protected enum WordType
     {
         Poison,
         Root,
@@ -35,26 +41,25 @@ public class Weapon : MonoBehaviour
         Slow,
         Petrify
     }
-    public List<WordType> wordList;
-    public float[] wordMagnitudePrimary; //magnitude da aplica��o ex 5s de slow, slow sendo uma keyword fixa ou seja sempre slowa em 30%
-    public float[] wordMagnitudeSecondary; //chance da aplica��o  ex 15% chance on hit
-    public void SetWeapon(int Level, List<WordType> wordList, float[] wordMagnitudePrimary, float[] wordMagnitudeSecondary, float baseDamage, WeaponType type)
+    protected List<WordType> wordList;
+    protected float[] wordMagnitudePrimary; //magnitude da aplicao ex 5s de slow, slow sendo uma keyword fixa ou seja sempre slowa em 30%
+    protected float[] wordMagnitudeSecondary; //chance da aplicao  ex 15% chance on hit
+    protected void SetWeapon(int Level, List<WordType> wordList, float[] wordMagnitudePrimary, float[] wordMagnitudeSecondary, float baseDamage, WeaponType type)
     {
-
+        //equipment change
     }
-    public void WordsEffectPermanent(WordType word)
+    protected void WordsEffectPermanent(WordType word)
     {
-
+        //called on start and on equipment change
     }
-    public void WordsEffectOnHit(List<WordType> wordList)
+    protected void WordsEffectOnHit(List<WordType> wordList)
     {
-        //dar um jeito de passar pro inimigo esses efeitos
+        //Setar esses efeitos para aplicar no hit enemy
         int i = 0;
         foreach(WordType word in wordList)
         {
             if(word.Equals(WordType.Poison))
             {
-                //
 
             }
             if (word.Equals(WordType.Root))
@@ -81,32 +86,33 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    virtual public void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
+    public virtual void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
     {
-        WordsEffectOnHit(wordList);
+        //WordsEffectOnHit(wordList);
     }
 
 
 
-    public IEnumerator AttackCooldown()
+    protected IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(attackCooldown);
         onCooldown = false;
     }
 
-    public void HitEnemy(Enemy enemy)
+    protected void HitEnemy(Enemy enemy, float damage)
+    {
+        enemy.TakeDamage(damage);
+        Debug.Log("Hit enemy " + enemy + " for " + damage + " damage");
+    }
+    protected void HitWall()
     {
 
     }
-    public void HitWall()
+    protected void StopAttack()
     {
 
     }
-    public void StopAttack()
-    {
-
-    }
-    public void SendProjectile(Vector2 aimDirection)
+    protected void SendProjectile(Vector2 aimDirection)
     {
         //fazourro
     }
@@ -122,7 +128,7 @@ public class Weapon : MonoBehaviour
     protected virtual void Start()
     {
         Debug.Log("Set player ref in Weapon");
-        //playerOwner = LevelManager.Instance.localManager.playerRef;
+        playerOwner = LevelManager.Instance.localManager.playerRef;
         enemyFilter.SetLayerMask(LayerMask.NameToLayer("Enemy"));
     }
 

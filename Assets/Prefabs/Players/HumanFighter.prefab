@@ -144,7 +144,7 @@ MonoBehaviour:
   attackMultiplier: 1
   movSpeedMultiplier: 1
   weapon: {fileID: 0}
-  weaponGameObject: {fileID: 6999102570090801731, guid: c5644c9431214944a9abb1069606df7c, type: 3}
+  weaponGameObject: {fileID: 5406698287356665229, guid: 5049c0a722ed2ec4486ed8bafb9fc03f, type: 3}
   aimPosition: {x: 0, y: 0}
   damageToReceive: 0
   movementController: {fileID: 6569135224370903192}
@@ -768,8 +768,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 571.47375, y: 287.03076}
-  m_SizeDelta: {x: 1101, y: 531}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2499734854801567118
 Canvas:

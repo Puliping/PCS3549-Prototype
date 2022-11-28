@@ -4,13 +4,41 @@ using UnityEngine;
 
 public class Sword : MeleeWeapon
 {
+    [SerializeField]
+    private GameObject parentRef;
 
-    bool cooldown = false;
-    Quaternion hitboxRotation = new();
-    Vector2 playerPos2D = new();
+    public override void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
+    {
+        if(!onCooldown)
+        {
+            base.Attack(aimDirection, playerComboTimerMulti, playerDamageMulti);
+            StartCoroutine(AnimationCoroutine(aimDirection));
+        }
+    }
+
+    protected IEnumerator AnimationCoroutine(Vector2 aimDirection)
+    {
+        //TODO matar essa corrotina se chamar de novo, e fazr Hitbox active false
+        //parentRef.transform.position.Set(0, 0, 0);
+        //parentRef.transform.rotation.eulerAngles.Set(90, 0, 0);
+        hitboxSprite.gameObject.SetActive(true);
+        //toca animacion
+        if(combo == 1)
+            animator.Play("Sword1Animation");
+        else if (combo == 2)
+            animator.Play("Sword1Animation");
+        else if (combo == 3)
+            animator.Play("Sword1Animation");
+        else if (combo == 4)
+            animator.Play("Sword1Animation");
+        yield return new WaitForSeconds(baseAttackDuration);
+        hitboxSprite.gameObject.SetActive(false);
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
+        onCooldown = false;
         playerOwner = LevelManager.Instance.localManager.playerRef;
         Debug.Log("Sword");
         base.Start();
@@ -19,33 +47,6 @@ public class Sword : MeleeWeapon
     // Update is called once per frame
     void Update()
     {
-        
-    }
 
-    override public void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
-    {
-        hitboxRotation.SetLookRotation(aimDirection, playerOwner.transform.up);
-        StartCoroutine(AnimationCoroutine(hitboxRotation));
-        base.Attack(aimDirection, playerComboTimerMulti, playerDamageMulti);
-    }
-
-    IEnumerator AnimationCoroutine(Quaternion hitboxRotation)
-    {
-        activeCollider = hitboxCollider[combo];
-        spriteRef.SetActive(true);
-        activeCollider.gameObject.SetActive(true);
-        //toca animacion
-        if(combo == 1)
-            animator.Play("Sword1Animation",0,baseAttackDuration);
-        else if (combo == 2)
-            animator.Play("Sword1Animation");
-        else if (combo == 3)
-            animator.Play("Sword1Animation");
-        else if (combo == 4)
-            animator.Play("Sword1Animation");
-        yield return new WaitForSeconds(baseAttackDuration);
-        spriteRef.SetActive(false);
-        activeCollider.gameObject.SetActive(false);
-        activeCollider = null;
     }
 }

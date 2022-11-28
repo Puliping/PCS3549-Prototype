@@ -44,5 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c4f468a5e4ec94089a6fc599ac3c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  type: 3
+  attackCooldown: 0.6
+  baseAttackDuration: 0
+  playerOwner: {fileID: 0}
+  baseDamage: 10
+  hitboxSprite: {fileID: 0}
+  baseProjectileSpeed: 10
+  arrowPrefab: {fileID: 6161193937770846933, guid: f1cf82160d4810c46bc796a2106aac22, type: 3}
