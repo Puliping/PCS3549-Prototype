@@ -37,7 +37,7 @@ public class SlimeWeapon : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        Debug.Log("Collision tag: "+collision.gameObject.tag);
+        //Debug.Log("Collision tag: "+collision.gameObject.tag);
         if (collision.gameObject.CompareTag("PlayerHitBox") )
         {
             collision.gameObject.GetComponentInParent<Player>().ReceiveDamage(1f);
