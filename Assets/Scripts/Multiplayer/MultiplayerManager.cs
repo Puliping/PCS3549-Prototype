@@ -14,7 +14,8 @@ public class MultiplayerManager : NetworkBehaviour
     {
         HumanFighter,
         Frenzy,
-        HookGuy
+        HookGuy,
+        WeaponMaster
     }
     public Class playerSelectedClass = Class.HumanFighter;
 
