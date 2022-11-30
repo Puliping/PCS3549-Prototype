@@ -63,6 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitbox: {fileID: 1970590925}
   enemy: {fileID: 819482433181592676}
+  damage: 1
 --- !u!1 &819482431822470316
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,17 +350,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37aad544c6ca37f4581badac2034bd96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 10
+  HP: 3
   base_speed: 1
   sighting_time: 0.5
-  attackCooldown: 2
-  attackDuration: 1
+  attackCooldown: 5
+  attackDuration: 0.7
   attack_range: 3
   sight_range: 4
   gameModeController: {fileID: 0}
   enemyState: 1
   slimeWeapon: {fileID: 1970590925}
   animator: {fileID: 819482432749059600}
+  idleAnimationSpeed: 1
+  dashRatio: 0.7
+  dashspeed: 7
 --- !u!114 &819482433181592673
 MonoBehaviour:
   m_ObjectHideFlags: 0

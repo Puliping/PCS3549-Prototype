@@ -14,12 +14,15 @@ public class Slime : Enemy
 
     public Animator animator;
 
+    [SerializeField]
+    private float idleAnimationSpeed = 1f;
     
     public override void Start()
     {
+        base.Start();
         spawn_position = this.transform.position;
-        moviment = GetComponent<EnemyMoviment>();
-        StartCoroutine(LineOfSightLoop());
+        animator.SetFloat("AttackDuration", 1f/attackDuration);
+        animator.SetFloat("IdleSpeed", idleAnimationSpeed);
     }
 
     private Vector3 dashDirection;
@@ -27,19 +30,27 @@ public class Slime : Enemy
     {
         
         if (!CanAttack()) return;
-        base.Attack();
+        //base.Attack();
+        
         slimeWeapon.SetActive(true);
         animator.Play("SlimeAttackAnimation");
+        onAttackCooldown = true;
         StartCoroutine(AttackDash());
+        StartCoroutine(AttackDuration());
     }
 
+
+    [SerializeField]
     private float dashRatio = 0.7f;
+    [SerializeField]
     private float dashspeed = 7f;
     IEnumerator AttackDash()
     {
-        yield return new WaitForSeconds(attackDuration*dashRatio);
         dashDirection = aggroTarget.transform.position - this.transform.position;
+        yield return new WaitForSeconds(attackDuration*dashRatio);
         moviment.ManualControl(dashDirection, dashspeed, attackDuration * (1-dashRatio));
+        yield return new WaitForSeconds(attackDuration * (1-dashRatio));
+        StartCoroutine(AttackCooldown());
     }
 
     public override void Patrol()
@@ -70,5 +81,6 @@ public class Slime : Enemy
         yield return new WaitForSeconds(4f);
         idlePathCooldown = true;
     }
+
 
 }

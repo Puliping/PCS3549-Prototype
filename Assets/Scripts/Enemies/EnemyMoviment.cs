@@ -94,10 +94,14 @@ public class EnemyMoviment : MonoBehaviour
     }
 
     private Coroutine manualCoroutine;
+    private Vector2 manualdir;
+    private float manualspeed;
     public void ManualControl(Vector2 direction, float speed_modifier, float time)
     {
         /* Manually sets the enemy speed in a given direction. This state is kept for [time] seconds */
-        SetSpeed(direction, movespeed*speed_modifier);
+        manualdir=direction;
+        manualspeed=speed_modifier;
+        SetSpeed(manualdir, movespeed* manualspeed);
         if (manual_control) StopCoroutine(manualCoroutine);
         manualCoroutine = StartCoroutine(ManualController(time));
     }
@@ -112,7 +116,11 @@ public class EnemyMoviment : MonoBehaviour
             
     void Update()
     {
-        if (manual_control) return;
+        if (manual_control)
+        {
+            SetSpeed(manualdir, movespeed * manualspeed);
+            return;
+        }
 
         if (path == null)
         {

@@ -73,3 +73,13 @@ crashlytics-build.properties
 
 # VSCode settings
 /.vscode/
+Assets/BookmarkEverything/Editor/IOHelper.cs.meta
+Assets/BookmarkEverything/Editor/IOHelper.cs
+Assets/BookmarkEverything/Editor/EntryDataGUIDComparer.cs.meta
+Assets/BookmarkEverything/Editor/EntryDataGUIDComparer.cs
+Assets/BookmarkEverything/Editor/BookmarkEverythingEditor.cs.meta
+Assets/BookmarkEverything/Editor/BookmarkEverythingEditor.cs
+Assets/BookmarkEverything/Editor.meta
+Assets/BookmarkEverything/BookmarkEverything-Documentation.pdf.meta
+Assets/BookmarkEverything/BookmarkEverything-Documentation.pdf
+Assets/BookmarkEverything.meta

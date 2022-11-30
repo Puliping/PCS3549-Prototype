@@ -42,6 +42,7 @@ public abstract class Enemy : MonoBehaviour
     {
         moviment = GetComponent<EnemyMoviment>();
         StartCoroutine(LineOfSightLoop());
+        gameModeController = GameModeController.Instance;
     }
 
     protected virtual bool CanAttack()
@@ -211,7 +212,7 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Die()
     {
         /** Called by ReceiveDamage() when HP<0.*/
-        Destroy(this, 0.2f); //Destroys after 0.2 seconds.
+        Destroy(this.gameObject, 0.2f); //Destroys after 0.2 seconds.
     }
 
 

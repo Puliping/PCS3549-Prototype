@@ -10,7 +10,8 @@ public class SlimeWeapon : MonoBehaviour
     private GameObject hitbox;
     [SerializeField]
     private Enemy enemy;
-
+    [SerializeField]
+    private float damage;
     private float attackDuration;
     void Start()
     {
@@ -40,7 +41,7 @@ public class SlimeWeapon : MonoBehaviour
         //Debug.Log("Collision tag: "+collision.gameObject.tag);
         if (collision.gameObject.CompareTag("PlayerHitBox") )
         {
-            collision.gameObject.GetComponentInParent<Player>().ReceiveDamage(1f);
+            collision.gameObject.GetComponentInParent<Player>().ReceiveDamage(damage);
         }
     }
     void Update()
