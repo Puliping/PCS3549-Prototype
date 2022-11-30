@@ -358,6 +358,7 @@ MonoBehaviour:
   attack_range: 3
   sight_range: 4
   gameModeController: {fileID: 0}
+  fireworks: {fileID: 8550248868410396489, guid: 5b3e19a069a1f8446ad33f8dea6aaf13, type: 3}
   enemyState: 1
   slimeWeapon: {fileID: 1970590925}
   animator: {fileID: 819482432749059600}

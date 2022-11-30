@@ -22,7 +22,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     public GameModeController gameModeController; //TO-DO make slimes able to get player/minions objects references during runtime
 
-
+    [SerializeField]
+    GameObject fireworks;
     protected GameObject aggroTarget = null;
     protected bool chasing_player = false;
 
@@ -212,7 +213,10 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Die()
     {
         /** Called by ReceiveDamage() when HP<0.*/
-        Destroy(this.gameObject, 0.2f); //Destroys after 0.2 seconds.
+
+        Instantiate(fireworks,transform.position,transform.rotation);
+        Destroy(this.gameObject, 0.0f); //Destroys after 0.0 seconds.
+        
     }
 
 

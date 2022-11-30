@@ -48,6 +48,6 @@ public class Sword : MeleeWeapon
     // Update is called once per frame
     void Update()
     {
-
+        animator.SetFloat("AttackSpeedMult", 1/(baseAttackDuration * 2f));
     }
 }
