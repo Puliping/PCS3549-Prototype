@@ -10,11 +10,12 @@ public class HookGuy : Player
 
     // Skill variables
     private float baseSkillCD = 3f;
-    private float baseMaxSkillRange = 6f;
+    private float baseMaxSkillRange = 9f;
     private float baseSkillHitDamage = 1f;
     private float baseSkillContactDamage = 1f;
     private float baseSkillHookShotSpeed = 10f;
     private float baseMomentumStrengthCoefficient = 0.8f;
+    private float baseDashMomentumStrengthCoefficient => baseMomentumStrengthCoefficient * 3.5f;
     private float baseSkillArea = 0.8f;
     private float baseSkillPullingSpeed = 0.85f;
     private float skillCurrentHookSpeed;
@@ -79,7 +80,7 @@ public class HookGuy : Player
                     Enemy enemyComponent = target.GetComponentInChildren<Enemy>();
 
                     // Deal damage
-                    // enemyComponent.ReceiveDamage(baseSkillContactDamage);
+                    enemyComponent.TakeDamage(baseSkillContactDamage);
                     Debug.Log("hit " + target.name);
                 }
             }
@@ -106,7 +107,7 @@ public class HookGuy : Player
                 enemyHit = hit.collider.GetComponentInChildren<Enemy>();
                 if (enemyHit != null)
                 {
-                    // enemyHit.ReceiveDamage(baseSkillHitDamage);
+                    enemyHit.TakeDamage(baseSkillHitDamage);
                     Debug.Log("hit " + enemyHit.name);
                 }
                 // Reset enemy hit by hook
@@ -125,6 +126,40 @@ public class HookGuy : Player
                 StartCoroutine(Hook());
             }
         }
+    }
+
+    protected override void OnDash()
+    {
+        if (!canDash) return;
+        if (!pulling)
+        {
+            base.OnDash();
+        }
+        else
+        {
+            StartCoroutine(HookDash());
+        }
+    }
+
+    IEnumerator HookDash()
+    {
+        // disable future dashes, will need to change if dash gets more than one charge
+        canDash = false;
+
+        Vector2 dashDirection = aimPosition.normalized;
+
+        // Update Bezier curve point
+        bezierP1 = new(transform.position.x + dashDirection.x * baseDashMomentumStrengthCoefficient, transform.position.y + dashDirection.y * baseDashMomentumStrengthCoefficient);
+
+        // Reset some variables so that the curve is recalculated, but the speed is maintained
+        // Non-zero chance that this makes the pull go farther than the actual point, but I didn't seem to have any issues
+        // I'm just assuming it's ok
+        currentTime = 0;
+        positionOnSkill = transform.position;
+
+        yield return new WaitForSeconds(dashCooldown);
+
+        canDash = true;
     }
 
     // Reference: https://youtu.be/idiq5WjCAD8

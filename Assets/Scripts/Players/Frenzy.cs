@@ -10,11 +10,11 @@ public class Frenzy : Player
     public float baseAttackMultiplierPerCharge = .01f;
 
     // Charge variables
-    private int hitsNeededForCharge = 1;
+    private int hitsNeededForCharge = 3;
     private int currentHits = 0;
     private int maxCharges = 10;
     private int currentChargeCounter = 0;
-    private float chargeUptime = 5f;
+    private float chargeUptime = 10f;
     // Actual number of charges is hard-capped by maxCharges
     private int currentCharges => Mathf.Min(currentChargeCounter, maxCharges);
 
@@ -25,7 +25,8 @@ public class Frenzy : Player
         {
             Debug.Log("OnSkill");
             StartCoroutine(SkillCooldown(baseSkillCD));
-            RemoveAllCharges();
+            Debug.Log("Not implemented :D");
+            // RemoveAllCharges();
         }
     }
 
@@ -47,8 +48,6 @@ public class Frenzy : Player
                 currentHits = 0;
             }
         }
-        Debug.Log("Frenzy: currently has " + currentChargeCounter + " charges");
-        Debug.Log("Frenzy: currentHits = " + currentHits);
     }
 
     IEnumerator Charge()

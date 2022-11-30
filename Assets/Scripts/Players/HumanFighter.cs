@@ -7,7 +7,7 @@ public class HumanFighter : Player
     public LayerMask enemyLayers;
 
     // Skill variables
-    public float baseSkillDamage = 1f;
+    public float baseSkillDamage = 5f;
     public float baseSkillCD = 12f;
     public float baseSkillStunDuration = 1.5f;
     public float baseSkillRange = 1f;
@@ -30,7 +30,7 @@ public class HumanFighter : Player
                 Enemy enemyComponent = target.GetComponentInChildren<Enemy>();
 
                 // Deal damage and stun
-                // enemyComponent.ReceiveDamage(baseSkillDamage);
+                enemyComponent.TakeDamage(baseSkillDamage);
                 // enemyComponent.ReceiveEffect(baseSkillDamage);
                 Debug.Log("hit " + target.name);
             }

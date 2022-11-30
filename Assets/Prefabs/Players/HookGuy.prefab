@@ -223,7 +223,7 @@ MonoBehaviour:
   attackMultiplier: 1
   movSpeedMultiplier: 1
   weapon: {fileID: 0}
-  weaponGameObject: {fileID: 0}
+  weaponGameObject: {fileID: 5406698287356665229, guid: 5049c0a722ed2ec4486ed8bafb9fc03f, type: 3}
   aimPosition: {x: 0, y: 0}
   slider: {fileID: 3790460115858821300}
   movementController: {fileID: 0}

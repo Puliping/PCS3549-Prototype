@@ -152,7 +152,7 @@ public abstract class Player : MonoBehaviour
     // TODO: rubens tem que arrumar a on attack e o contexto
     protected virtual void OnAttack()
     {
-        Debug.Log("OnAttack");
+        // Debug.Log("OnAttack");
         // n esquece de pegar aqui
         weapon.Attack(aimPosition);
     }
