@@ -164,7 +164,7 @@ public abstract class Player : MonoBehaviour
     }
 
     protected bool canDash = true;
-    public float dashCooldown = 1f;
+    public float dashCooldown = 0.5f;
     protected virtual void OnDash()
     {
         if (!canDash) return;
@@ -180,14 +180,14 @@ public abstract class Player : MonoBehaviour
         // float speedMod = 1.2f;
         if (dashType == DashType.Dash)
         {
-            StartCoroutine(InvulnerabilityCooldown(1f));
+            StartCoroutine(InvulnerabilityCooldown(0.25f));
             // speedMod = 1.5f;
         }
 
         movementController.dashing = true;
-        movementController.dashDirection = aimPosition.normalized;
+        movementController.dashDirection = movementController.GetMoveDirection();
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.26f);
 
         movementController.dashing = false;
 

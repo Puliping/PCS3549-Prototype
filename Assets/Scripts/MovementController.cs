@@ -36,7 +36,7 @@ public class MovementController : MonoBehaviour
         if (!dashing)
             rb.velocity = moveDirection * movSpeed;
         else
-            rb.velocity = dashDirection * movSpeed * 1.5f;
+            rb.velocity = dashDirection * movSpeed * 4f;
     }
 
     public void Dash(Vector2 aimPosition)
