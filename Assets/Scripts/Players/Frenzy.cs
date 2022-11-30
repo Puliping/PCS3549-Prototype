@@ -1,10 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using System.Linq;
 using UnityEngine;
 
 public class Frenzy : Player
 {
+    public struct ChargeAndOffset
+    {
+        public GameObject chargeSprite;
+        public float offset;
+        public ChargeAndOffset (GameObject chargeSprite, float offset)
+        {
+            this.offset = offset;
+            this.chargeSprite = chargeSprite;
+        }
+    }
+
     public float baseSkillCD = 10f;
     public float baseMovSpeedMultiplierPerCharge = .05f;
     public float baseAttackMultiplierPerCharge = .01f;
@@ -17,6 +29,20 @@ public class Frenzy : Player
     private float chargeUptime = 10f;
     // Actual number of charges is hard-capped by maxCharges
     private int currentCharges => Mathf.Min(currentChargeCounter, maxCharges);
+
+    public GameObject chargeSprite;
+    public List<ChargeAndOffset> chargeSpriteList = new List<ChargeAndOffset>();
+
+    private void Update()
+    {
+        if (chargeSpriteList != null)
+        {
+            foreach (ChargeAndOffset co in chargeSpriteList)
+            {
+                co.chargeSprite.transform.RotateAround(transform.position, new Vector3(0, 0, 1), 45 * Time.deltaTime);
+            }
+        }
+    }
 
     public override void OnSkill()
     {
@@ -60,12 +86,19 @@ public class Frenzy : Player
 
     void AddCharge()
     {
+        float offset = Random.Range(0.05f, 0.9f);
+        chargeSpriteList.Add(new ChargeAndOffset(Instantiate(chargeSprite, this.transform), offset));
+        chargeSpriteList.Last().chargeSprite.transform.position = new Vector2(transform.position.x + offset, transform.position.y + offset);
+        chargeSpriteList.Last().chargeSprite.SetActive(true);
         currentChargeCounter++;
         UpdateModifiers();
     }
 
     void RemoveCharge()
     {
+        // chargeSpriteList[0].chargeSprite.SetActive(false);
+        Destroy(chargeSpriteList[0].chargeSprite);
+        chargeSpriteList.RemoveAt(0);
         currentChargeCounter--;
         UpdateModifiers();
     }
@@ -85,4 +118,5 @@ public class Frenzy : Player
         movSpeedMultiplier = currentCharges * baseMovSpeedMultiplierPerCharge;
         attackMultiplier = currentCharges * baseAttackMultiplierPerCharge;
     }
+
 }
