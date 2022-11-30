@@ -20,7 +20,8 @@ public class Sword : MeleeWeapon
     {
         //TODO matar essa corrotina se chamar de novo, e fazr Hitbox active false
         //parentRef.transform.position.Set(0, 0, 0);
-        //parentRef.transform.rotation.eulerAngles.Set(90, 0, 0);
+        //this.transform.rotation.eulerAngles.Set(0, 0, 90);
+        this.transform.eulerAngles = new Vector3(0, 0, (Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg) - 90);
         hitboxSprite.gameObject.SetActive(true);
         //toca animacion
         if(combo == 1)

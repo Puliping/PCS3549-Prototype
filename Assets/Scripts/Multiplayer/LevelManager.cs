@@ -6,6 +6,8 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
+    [HideInInspector]
+    public Camera mainCamera;
     public MultiplayerManager localManager;
     public NetworkManager networkManager;
     private void Awake()

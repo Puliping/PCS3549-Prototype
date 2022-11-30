@@ -5,18 +5,23 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public abstract class Player : MonoBehaviour
 {
+    public Camera mainCamera;
     public float hp;
     public float movSpeed;
     public float invulnerableDuration = .5f;
     public float attackMultiplier = 1f;
     public float movSpeedMultiplier = 1f;
+    [HideInInspector]
     public Weapon weapon;
     public GameObject weaponGameObject;
     protected bool isInvulnerable = false;
     public Vector2 aimPosition;
+    public Slider slider;
+    private float fullhp;
     
     [SerializeField]
     protected MovementController movementController;
@@ -46,8 +51,11 @@ public abstract class Player : MonoBehaviour
     }
     protected virtual void Start()
     {
-        weaponGameObject = Instantiate(weaponGameObject, transform);
+        LevelManager.Instance.mainCamera = mainCamera;
+        weaponGameObject = Instantiate(weaponGameObject, this.transform.position, Quaternion.identity, transform);
         weapon = weaponGameObject.GetComponentInChildren<Weapon>();
+        fullhp = hp;
+        slider.value = 1;
     }
 
     public virtual void OnSkill() { }
@@ -109,9 +117,12 @@ public abstract class Player : MonoBehaviour
     {
 
     }
-    public virtual void Interact()
+    public virtual void Interact(GameObject Interact)
     {
-
+        weaponGameObject = Interact;
+        weaponGameObject.gameObject.transform.parent = this.gameObject.transform;
+        weaponGameObject.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        weapon = weaponGameObject.GetComponentInChildren<Weapon>();
     }
     protected virtual void OnAim(InputValue value)
     {
@@ -251,7 +262,7 @@ public abstract class Player : MonoBehaviour
             return;
         }
         hp -= damage;
-
+        slider.value = hp / fullhp;
         //knockback effect?
 
         textDamage.gameObject.SetActive(true);
