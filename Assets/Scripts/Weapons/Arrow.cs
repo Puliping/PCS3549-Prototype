@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    public Weapon parent;
     public float damage;
     public int pierceCount = 1;
     //public List<Words> etc...
@@ -14,7 +15,7 @@ public class Arrow : MonoBehaviour
         {
             // deal damage
             Enemy enemyComponent = enemy.GetComponentInChildren<Enemy>();
-            enemyComponent.TakeDamage(damage); // FF
+            parent.HitEnemy(enemyComponent, damage);
 
             Debug.Log("hit " + enemy.name);
             //reduce pierce count and destroy if zero

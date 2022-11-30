@@ -8,7 +8,6 @@ public class HumanFighter : Player
 
     // Skill variables
     public float baseSkillDamage = 5f;
-    public float baseSkillCD = 12f;
     public float baseSkillStunDuration = 1.5f;
     public float baseSkillRange = 1f;
     public GameObject skillSprite;
@@ -19,7 +18,7 @@ public class HumanFighter : Player
         if (canUseSkill)
         {
             Debug.Log("OnSkill");
-            StartCoroutine(SkillCooldown(baseSkillCD));
+            StartCoroutine(SkillCooldown());
             StartCoroutine(AnimateSkill());
 
             // Detect hits

@@ -102,8 +102,9 @@ public class Weapon : MonoBehaviour
         onCooldown = false;
     }
 
-    protected void HitEnemy(Enemy enemy, float damage)
+    public void HitEnemy(Enemy enemy, float damage)
     {
+        playerOwner.HitEnemy();
         enemy.TakeDamage(damage);
         Debug.Log("Hit enemy " + enemy + " for " + damage + " damage");
     }

@@ -9,7 +9,6 @@ public class HookGuy : Player
     [SerializeField] public LineRenderer lr;
 
     // Skill variables
-    private float baseSkillCD = 3f;
     private float baseMaxSkillRange = 9f;
     private float baseSkillHitDamage = 1f;
     private float baseSkillContactDamage = 1f;
@@ -92,7 +91,7 @@ public class HookGuy : Player
         if (canUseSkill)
         {
             Debug.Log("OnSkill");
-            StartCoroutine(SkillCooldown(baseSkillCD));
+            StartCoroutine(SkillCooldown());
             // Raycast to aim position
             RaycastHit2D hit = Physics2D.Raycast(transform.position, aimPosition, baseMaxSkillRange, hookableLayers);
             if (hit.collider != null)

@@ -10,13 +10,14 @@ using UnityEngine.UI;
 public abstract class Player : MonoBehaviour
 {
     public Camera mainCamera;
+
+    [Header("Stats")]
     public float hp;
     public float movSpeed;
     public float invulnerableDuration = .5f;
     public float attackMultiplier = 1f;
     public float movSpeedMultiplier = 1f;
-    [HideInInspector]
-    public Weapon weapon;
+    protected Weapon weapon;
     public GameObject weaponGameObject;
     protected bool isInvulnerable = false;
     public Vector2 aimPosition;
@@ -58,12 +59,13 @@ public abstract class Player : MonoBehaviour
         slider.value = 1;
     }
 
+    public float skillCooldown;
     public virtual void OnSkill() { }
 
-    public IEnumerator SkillCooldown(float SkillCD)
+    public IEnumerator SkillCooldown()
     {
         canUseSkill = false;
-        yield return new WaitForSeconds(SkillCD);
+        yield return new WaitForSeconds(skillCooldown);
         canUseSkill = true;
         Debug.Log("Skill is ready");
     }
@@ -136,30 +138,13 @@ public abstract class Player : MonoBehaviour
         aimPosition = new Vector2(aim.x, aim.y);
     }
 
-    // virtual void Attack(InputAction.CallbackContext context)
-    // {
-    //     if(context.started){
-    //         weapon.Attack(aimPosition);
-    //     }
-    //     else if(context.canceled) 
-    //     {
-    //         if(context.duration > weapon.chargeTime) {
-    //             weapon.ChargedAttack(aimPosition);
-    //         }
-    //     }
-    // }
-
-    // TODO: rubens tem que arrumar a on attack e o contexto
     protected virtual void OnAttack()
     {
-        // Debug.Log("OnAttack");
-        // n esquece de pegar aqui
         weapon.Attack(aimPosition);
     }
 
     protected virtual void OnChargedAttack()
     {
-        Debug.Log("charged attack");
         weapon.ChargedAttack(aimPosition);
     }
 
@@ -185,7 +170,6 @@ public abstract class Player : MonoBehaviour
         }
 
         movementController.dashing = true;
-        movementController.dashDirection = movementController.GetMoveDirection();
 
         yield return new WaitForSeconds(.26f);
 

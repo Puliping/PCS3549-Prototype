@@ -24,7 +24,7 @@ public class MovementController : MonoBehaviour
     }
     public void UpdatePlayerSpeed()
     {
-        movSpeed = player.movSpeed;
+        movSpeed = player.movSpeed * player.movSpeedMultiplier;
     }
 
     private void Update()
@@ -36,7 +36,7 @@ public class MovementController : MonoBehaviour
         if (!dashing)
             rb.velocity = moveDirection * movSpeed;
         else
-            rb.velocity = dashDirection * movSpeed * 4f;
+            rb.velocity = moveDirection * movSpeed * 3f;
     }
 
     public void Dash(Vector2 aimPosition)

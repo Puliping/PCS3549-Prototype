@@ -25,6 +25,7 @@ public class Bow : Weapon
         //sets damage and word effects on arrow prefab pre spawn
         damage = baseDamage * playerDamageMulti;
         pierceCount = 1;
+        projectileScript.parent = this;
         projectileScript.damage = damage;
         projectileScript.pierceCount = pierceCount;
     }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5732511755212214163}
   - component: {fileID: 7010356805274688210}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 6082754083269782073}
   - component: {fileID: 6082754083269782212}
   - component: {fileID: 6082754083269782213}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -29,7 +29,6 @@ public class Frenzy : Player
         }
     }
 
-    public float baseSkillCD = 10f;
     public float baseMovSpeedMultiplierPerCharge = .05f;
     public float baseAttackMultiplierPerCharge = .01f;
 
@@ -71,7 +70,7 @@ public class Frenzy : Player
         if (canUseSkill)
         {
             Debug.Log("OnSkill");
-            StartCoroutine(SkillCooldown(baseSkillCD));
+            StartCoroutine(SkillCooldown());
             Debug.Log("Not implemented :D");
             // RemoveAllCharges();
         }
@@ -80,7 +79,6 @@ public class Frenzy : Player
     protected override void OnAttack()
     {
         base.OnAttack();
-        HitEnemy();
     }
 
     public override void HitEnemy()
@@ -138,8 +136,10 @@ public class Frenzy : Player
 
     void UpdateModifiers()
     {
-        movSpeedMultiplier = currentCharges * baseMovSpeedMultiplierPerCharge;
-        attackMultiplier = currentCharges * baseAttackMultiplierPerCharge;
+        attackMultiplier = 1 + currentCharges * baseAttackMultiplierPerCharge;
+
+        movSpeedMultiplier = 1 + currentCharges * baseMovSpeedMultiplierPerCharge;
+        movementController.UpdatePlayerSpeed();
     }
 
 }
