@@ -6,14 +6,26 @@ using UnityEngine;
 
 public class Frenzy : Player
 {
-    public struct ChargeAndOffset
+    public class ChargeAndOffset
     {
         public GameObject chargeSprite;
+        public float distAngle;
+        public float angle;
         public float offset;
-        public ChargeAndOffset (GameObject chargeSprite, float offset)
+        public float speed;
+        public ChargeAndOffset (GameObject chargeSprite, float angle, float distAngle,float speed)
         {
-            this.offset = offset;
+            offset = 1f;
+            this.angle = angle;
             this.chargeSprite = chargeSprite;
+            this.distAngle = distAngle;
+            this.speed = speed;
+        }
+
+        public void  UpdateAngles(float increment)
+        {
+            this.angle += increment*1.2f*speed;
+            this.distAngle += increment*0.75453f*speed;
         }
     }
 
@@ -37,10 +49,19 @@ public class Frenzy : Player
     {
         if (chargeSpriteList != null)
         {
-            foreach (ChargeAndOffset co in chargeSpriteList)
+            ChargeAndOffset co;
+            SpriteRenderer re;
+            for (int i = 0; i < chargeSpriteList.Count; i++)
             {
-                co.chargeSprite.transform.RotateAround(transform.position, new Vector3(0, 0, 1), 45 * Time.deltaTime);
+                co = chargeSpriteList[i];
+                float offset = co.offset * (Mathf.Cos(co.distAngle) * Mathf.Cos(co.distAngle) * 0.35f + 0.6f);
+                co.chargeSprite.transform.position = new Vector2(transform.position.x + offset * Mathf.Cos(co.angle), transform.position.y + offset * Mathf.Sin(co.angle));
+
+                co.UpdateAngles(4f * Time.deltaTime);
+                re = co.chargeSprite.GetComponent<SpriteRenderer>();
+                re.color = new Color(1f * (Mathf.Cos(co.angle * 1.3f/4f) * Mathf.Cos(co.angle * 1.3f/4f)), 1f * (Mathf.Cos(co.angle * 0.7f / 4f) * Mathf.Cos(co.angle * 0.7f / 4f)), 1f * (Mathf.Cos(co.angle * 0.2f / 4f) * Mathf.Cos(co.angle * 0.2f / 4f)),1f);
             }
+
         }
     }
 
@@ -86,9 +107,11 @@ public class Frenzy : Player
 
     void AddCharge()
     {
-        float offset = Random.Range(0.05f, 0.9f);
-        chargeSpriteList.Add(new ChargeAndOffset(Instantiate(chargeSprite, this.transform), offset));
-        chargeSpriteList.Last().chargeSprite.transform.position = new Vector2(transform.position.x + offset, transform.position.y + offset);
+        float angle = Random.Range(0f, Mathf.PI*2f);
+        float distangle = Random.Range(0f, Mathf.PI * 2f);
+
+        chargeSpriteList.Add(new ChargeAndOffset(Instantiate(chargeSprite, this.transform), angle, distangle, Random.Range(0.5f, 1.4f)));
+        //chargeSpriteList.Last().chargeSprite.transform.position = new Vector2(transform.position.x + offset, transform.position.y + offset);
         chargeSpriteList.Last().chargeSprite.SetActive(true);
         currentChargeCounter++;
         UpdateModifiers();
