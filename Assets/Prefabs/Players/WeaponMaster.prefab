@@ -278,12 +278,15 @@ MonoBehaviour:
   movSpeedMultiplier: 1
   weaponGameObject: {fileID: 5406698287356665229, guid: 5049c0a722ed2ec4486ed8bafb9fc03f, type: 3}
   aimPosition: {x: 0, y: 0}
-  slider: {fileID: 4737344408015186766, guid: c4e24b97983a0d945a39701c1a1421d7, type: 3}
+  slider: {fileID: 6282378545739319240}
   movementController: {fileID: 6569135224370903192}
   textDamage: {fileID: 5285288471354809088, guid: de988f437b501124598a9e28a5be83f1, type: 3}
   dashType: 1
   skillCooldown: 0.5
   dashCooldown: 1
+  weaponGameObjectList:
+  - {fileID: 5406698287356665229, guid: 5049c0a722ed2ec4486ed8bafb9fc03f, type: 3}
+  - {fileID: 2868416384690088021, guid: 5d20cdd523ed96641a08ace1db6b8aa0, type: 3}
 --- !u!114 &6569135224370903192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,7 +701,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50.00001, y: 50.000004}
+  m_AnchoredPosition: {x: 50, y: 50}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &957601379596087732
@@ -846,7 +849,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 124.200096, y: 50.000004}
+  m_AnchoredPosition: {x: 124.2001, y: 50}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7114086026094124744
@@ -1082,7 +1085,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50.00001, y: 50.000004}
+  m_AnchoredPosition: {x: 50, y: 50}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4069580051631670452
@@ -1388,7 +1391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 124.200066, y: 50.000004}
+  m_AnchoredPosition: {x: 124.20007, y: 50}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7620645920930585561

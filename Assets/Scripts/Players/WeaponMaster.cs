@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WeaponMaster : Player
 {
-    List<Weapon> weaponList;
+    public List<GameObject> weaponGameObjectList = new List<GameObject>();
+    private List<Weapon> weaponList = new List<Weapon>();
     private int currentWeaponNumber = 0;
     private int currentCharges = 0;
     private int usedCharges = 0;
@@ -20,9 +21,20 @@ public class WeaponMaster : Player
 
     protected override void Start()
     {
-        base.Start();
-        // TODO: this doesn't work
-        weaponList.Add(weapon);
+        LevelManager.Instance.mainCamera = mainCamera;
+        fullhp = hp;
+        slider.value = 1;
+        for (int i = 0; i < weaponGameObjectList.Count; i++)
+        {
+            weaponGameObject = Instantiate(weaponGameObjectList[i], this.transform.position, Quaternion.identity, transform);
+            weapon = weaponGameObject.GetComponentInChildren<Weapon>();
+            weaponGameObjectList[i] = weaponGameObject;
+            weaponList.Add(weapon);
+            weaponGameObjectList[i].SetActive(false);
+        }
+        weaponGameObjectList[0].SetActive(true);
+        weaponGameObject = weaponGameObjectList[0];
+        weapon = weaponList[0];
     }
 
     public override void OnSkill()
@@ -30,6 +42,7 @@ public class WeaponMaster : Player
         if (canUseSkill)
         {
             nextWeapon();
+            StartCoroutine(SkillCooldown());
         }
     }
 
@@ -83,11 +96,17 @@ public class WeaponMaster : Player
 
     public void nextWeapon()
     {
+        weaponGameObjectList[currentWeaponNumber].SetActive(false);
         // Makes the list loop back to the first element if it's at its end
-        currentWeaponNumber = (currentWeaponNumber + 1) % weaponList.Count;
+        currentWeaponNumber = (currentWeaponNumber + 1) % weaponGameObjectList.Count;
 
         // I'm pretty sure this doesn't work like this
+        weaponGameObjectList[currentWeaponNumber].SetActive(true);
+        weaponGameObject = weaponGameObjectList[currentWeaponNumber];
         weapon = weaponList[currentWeaponNumber];
+
+        //weaponGameObject.gameObject.transform.parent = this.gameObject.transform;
+        //weaponGameObject.gameObject.transform.localPosition = new Vector3(0, 0, 0);
 
         // Set accumulated charges for the current weapon and reset charges for the next
         currentCharges = currentChargesForNextWeapon;

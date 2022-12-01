@@ -24,7 +24,7 @@ public abstract class Player : MonoBehaviour
     protected bool isInvulnerable = false;
     public Vector2 aimPosition;
     public Slider slider;
-    private float fullhp;
+    protected float fullhp;
     
     [SerializeField]
     protected MovementController movementController;
