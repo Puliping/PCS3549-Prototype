@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public abstract class Player : MonoBehaviour
 {
     public Camera mainCamera;
+    public Image imageSkillCD;
+    public Image imageDashCD;
 
     [Header("Stats")]
     public float hp;
@@ -65,9 +67,22 @@ public abstract class Player : MonoBehaviour
     public IEnumerator SkillCooldown()
     {
         canUseSkill = false;
+        imageSkillCD.fillAmount = 1;
+        StartCoroutine(ImageSkill());
         yield return new WaitForSeconds(skillCooldown);
         canUseSkill = true;
         Debug.Log("Skill is ready");
+    }
+    protected IEnumerator ImageSkill()
+    {
+        float temp = 0;
+        while (temp < skillCooldown)
+        {
+            imageSkillCD.fillAmount = (skillCooldown - temp)/ skillCooldown;
+            yield return null;
+            temp = temp + Time.deltaTime;
+        }
+        yield return null;
     }
     public virtual void HitEnemy()
     {
@@ -121,7 +136,11 @@ public abstract class Player : MonoBehaviour
     }
     public virtual void Interact(GameObject Interact)
     {
+        Destroy(weaponGameObject.gameObject);
         weaponGameObject = Interact;
+        var interactTemp = weaponGameObject.GetComponent<InteractObject>();
+        Destroy(interactTemp.rb);
+        Destroy(interactTemp.collider2D);
         weaponGameObject.gameObject.transform.parent = this.gameObject.transform;
         weaponGameObject.gameObject.transform.localPosition = new Vector3(0, 0, 0);
         weapon = weaponGameObject.GetComponentInChildren<Weapon>();
@@ -160,7 +179,8 @@ public abstract class Player : MonoBehaviour
     {
         // disable future dashes, will need to change if dash gets more than one charge
         canDash = false;
-
+        imageDashCD.fillAmount = 1;
+        StartCoroutine(ImageDash());
         // set up invincibility dash, if that's the case
         // float speedMod = 1.2f;
         if (dashType == DashType.Dash)
@@ -178,6 +198,17 @@ public abstract class Player : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
 
         canDash = true;
+    }
+    protected IEnumerator ImageDash()
+    {
+        float temp = 0;
+        while (temp < dashCooldown)
+        {
+            imageDashCD.fillAmount = (dashCooldown - temp)/ dashCooldown;
+            yield return null;
+            temp = temp + Time.deltaTime;
+        }
+        yield return null;
     }
 
     /*Usar essa funcao para o WeaponMaster*/

@@ -19,8 +19,7 @@ public class MenuController : MonoBehaviour
     }
     public void ChangeScene()
     {
-        SceneManager.LoadScene("Gameplay");
-        
+        SceneManager.LoadScene("Gameplay");        
     }
 
     public void Quitgame()
