@@ -70,6 +70,7 @@ public class Frenzy : Player
         if (canUseSkill)
         {
             Debug.Log("OnSkill");
+            RemoveAllCharges();
             StartCoroutine(SkillCooldown());
             Debug.Log("Not implemented :D");
             // RemoveAllCharges();
@@ -89,7 +90,7 @@ public class Frenzy : Player
             // Just setting an upper bound so the charge number doesn't break anything
             if (currentChargeCounter <= 3 * maxCharges)
             {
-                StartCoroutine(Charge());
+                StartCoroutine("Charge");
                 currentHits = 0;
             }
         }
@@ -128,7 +129,12 @@ public class Frenzy : Player
     {
         for (int i = 0; i < currentChargeCounter; i++)
         {
-            StopCoroutine(Charge());
+            StopCoroutine("Charge");
+        }
+        for (int i = chargeSpriteList.Count - 1; i >= 0; i--)
+        {
+            Destroy(chargeSpriteList[i].chargeSprite);
+            chargeSpriteList.RemoveAt(i);
         }
         currentChargeCounter = 0;
         UpdateModifiers();
@@ -141,5 +147,4 @@ public class Frenzy : Player
         movSpeedMultiplier = 1 + currentCharges * baseMovSpeedMultiplierPerCharge;
         movementController.UpdatePlayerSpeed();
     }
-
 }
