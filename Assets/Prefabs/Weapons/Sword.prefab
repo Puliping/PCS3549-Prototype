@@ -49,7 +49,7 @@ MonoBehaviour:
   attackCooldown: 0.25
   baseAttackDuration: 0.15
   playerOwner: {fileID: 0}
-  baseDamage: 10
+  baseDamage: 2
   hitboxSprite: {fileID: 6244254176142699187}
   baseProjectileSpeed: 10
   comboMult:
