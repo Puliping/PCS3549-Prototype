@@ -11,6 +11,7 @@ public class Bow : Weapon
 
     public override void Attack(Vector2 aimDirection, float playerComboTimerMulti = 1f, float playerDamageMulti = 1f)
     {
+        if (onCooldown) return;
         base.Attack(aimDirection, playerComboTimerMulti, playerDamageMulti);
         GameObject projectile = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
         projectileScript = projectile.GetComponentInChildren<Arrow>();
@@ -18,6 +19,8 @@ public class Bow : Weapon
         projectile.GetComponent<Rigidbody2D>().velocity = aimDirection * 10;
         projectile.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg);
 
+        
+        StartCoroutine(AttackCooldown());
     }
 
     public void loadArrowDamageAndEffects(Arrow projectileScript, float playerDamageMulti = 1f)

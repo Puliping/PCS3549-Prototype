@@ -15,9 +15,8 @@ public class Skeleton : Enemy
     // Start is called before the first frame update
     public override void Start()
     {
+        base.Start();
         spawn_position = this.transform.position;
-        moviment = GetComponent<EnemyMoviment>();
-        StartCoroutine(LineOfSightLoop());
     }
 
 

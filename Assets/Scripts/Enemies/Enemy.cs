@@ -44,6 +44,7 @@ public abstract class Enemy : MonoBehaviour
         moviment = GetComponent<EnemyMoviment>();
         StartCoroutine(LineOfSightLoop());
         gameModeController = GameModeController.Instance;
+        gameModeController.enemiesAlive++;
     }
 
     protected virtual bool CanAttack()
@@ -212,6 +213,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        GameModeController.Instance.EnemyDeath();
         /** Called by ReceiveDamage() when HP<0.*/
 
         Instantiate(fireworks,transform.position,transform.rotation);

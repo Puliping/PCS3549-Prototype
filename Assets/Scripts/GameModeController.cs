@@ -9,7 +9,7 @@ public class GameModeController : MonoBehaviour
     public static GameModeController Instance;
     public GameObject canvasRoot;
     [HideInInspector]
-    public int enemiesAlive;
+    public int enemiesAlive = 0;
     [SerializeField]
     private TextMeshProUGUI finalText;
 

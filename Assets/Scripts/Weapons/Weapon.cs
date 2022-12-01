@@ -98,6 +98,7 @@ public class Weapon : MonoBehaviour
 
     protected IEnumerator AttackCooldown()
     {
+        onCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
         onCooldown = false;
     }

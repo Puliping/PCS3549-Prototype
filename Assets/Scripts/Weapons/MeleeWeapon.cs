@@ -42,7 +42,6 @@ public class MeleeWeapon : Weapon
             damage = baseDamage * comboMult[combo] * playerDamageMulti;
 
 
-            onCooldown = true;
             StartCoroutine(AttackCooldown());
  
             //playerOwner.PlayAnimation(type, combo);

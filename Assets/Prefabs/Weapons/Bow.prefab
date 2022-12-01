@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c4f468a5e4ec94089a6fc599ac3c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 0.6
+  attackCooldown: 0.4
   baseAttackDuration: 0
   playerOwner: {fileID: 0}
   baseDamage: 1
