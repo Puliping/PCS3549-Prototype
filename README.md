@@ -13,4 +13,5 @@ O grupo é formado pelos seguintes alunos:
 
 * WASD - Movimentação.
 * Mouse - Mira/ataques.
-* Tab - Troca de arma (espada/arco).
+* Q - Skill.
+* Espaço - Dash.
