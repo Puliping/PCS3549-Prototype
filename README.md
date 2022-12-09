@@ -15,3 +15,7 @@ O grupo é formado pelos seguintes alunos:
 * Mouse - Mira/ataques.
 * Q - Skill.
 * Espaço - Dash.
+
+## Download
+
+Na página [Releases](https://github.com/Puliping/PCS3549-Prototype/releases) deste repo.
